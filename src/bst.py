@@ -16,10 +16,14 @@ class Node(object):
 class BST(object):
     """Define Binart Search Tree class(BST)."""
 
-    top = None
+    def reset(self):
+        """Reset class variables for testing."""
+        self.check_set = set()
+        self.top = None
 
-    def __init__(self, values):
+    def __init__(self, values=[]):
         """Initialize BST class."""
+        self.reset()
         if isinstance(values, list):
             for value in values:
                 self.insert(value)
@@ -28,17 +32,35 @@ class BST(object):
 
     def insert(self, value):
         """Insert a value into the binary heap."""
-        # if self.contains(value):
-        #     break
-        # else:
-        cursor = self.top
-        new_node = Node(value)
-        if self.top is None:
-            self.top = new_node
+        if self.contains(value):
+            pass
         else:
-            while cursor is not None:
-                if cursor.value > new_node.value:
-                    old_cursor = cursor
-                    cursor = cursor.left
-            new_node.parent = old_cursor
-            old_cursor.left = new_node
+            cursor = self.top
+            new_node = Node(value)
+            if self.top is None:
+                self.top = new_node
+            else:
+                while cursor is not None:
+                    if cursor.value > new_node.value:
+                        old_cursor = cursor
+                        cursor = cursor.left
+                    else:
+                        old_cursor = cursor
+                        cursor = cursor.right
+                if old_cursor.value > new_node.value:
+                    new_node.parent = old_cursor
+                    old_cursor.left = new_node
+                else:
+                    new_node.parent = old_cursor
+                    old_cursor.right = new_node
+            self.check_set.add(new_node.value)
+
+    def contains(self, value):
+        """Return a boolean if the node value is contained."""
+        if value in self.check_set:
+            return True
+        return False
+
+    def size(self):
+        """Return the values in the tree."""
+        return len(self.check_set)
