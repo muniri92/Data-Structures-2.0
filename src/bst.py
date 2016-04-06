@@ -20,6 +20,8 @@ class BST(object):
         """Reset class variables for testing."""
         self.check_set = set()
         self.top = None
+        self.r_level = 0
+        self.l_level = 0
 
     def __init__(self, values=[]):
         """Initialize BST class."""
@@ -64,3 +66,30 @@ class BST(object):
     def size(self):
         """Return the values in the tree."""
         return len(self.check_set)
+
+    def depth(self):
+        """Return the number of levels in the tree."""
+        if self.top is None:
+            return 0
+        elif self.top.left is None and self.top.right is None:
+            return 1
+        else:
+            cursor = self.top.left
+            l_level = 1
+            to_search = [cursor]
+            seen = set()
+            while to_search:
+                if to_search[0].left is None and to_search[0].right is None:
+                    l_level += 1
+                    seen.add(to_search[0])
+                    del to_search[0]
+        if l_level > r_level:
+            return l_level
+        return r_level        
+
+
+
+
+    def balance(self):
+        """Return a value representing the right to left balance."""
+        return self.l_level - self.r_level
