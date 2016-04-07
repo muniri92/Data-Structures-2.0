@@ -24,7 +24,8 @@ import pytest
 def test_insert_left():
     """Test that insert works."""
     from bst import BST
-    b = BST([20])
+    b = BST()
+    b.insert(20)
     b.insert(16)
     b.insert(14)
     b.insert(17)
@@ -39,7 +40,8 @@ def test_insert_left():
 def test_contains():
     """Test contains function."""
     from bst import BST
-    b = BST([20])
+    b = BST()
+    b.insert(20)
     b.insert(16)
     b.insert(14)
     b.insert(17)
