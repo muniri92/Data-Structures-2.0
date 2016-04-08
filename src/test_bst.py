@@ -55,3 +55,70 @@ def test_size_many():
     b.insert(14)
     b.insert(23)
     assert b.size() == 5
+
+
+def test_depth_none():
+    """Test that a node of nothing returns a value of nothing."""
+    from bst import Node
+    a = Node()
+    assert a.depth() == 0
+
+
+def test_depth_one():
+    """Test that a node of one returns a depth of one."""
+    from bst import Node
+    a = Node(1)
+    assert a.depth() == 1
+
+
+def test_balance_none():
+    """Test that a node of nothing returns a value of nothing."""
+    from bst import Node
+    a = Node()
+    assert a.balance() == 0
+
+
+def test_balance_one():
+    """Test that a node of one returns a depth of one."""
+    from bst import Node
+    a = Node(1)
+    assert a.balance() == 0
+
+
+def test_balance_left():
+    """Test that a left side is larger and returns a positive int."""
+    from bst import BST
+    b = BST([20])
+    b.insert(16)
+    b.insert(14)
+    b.insert(17)
+    b.insert(14)
+    b.insert(23)
+    assert b.balance() > 0
+
+
+def test_balance_right():
+    """Test that a right side is larger and returns a negative int."""
+    from bst import BST
+    b = BST([20])
+    b.insert(23)
+    b.insert(22)
+    assert b.balance() < 0
+
+
+def test_depth_many():
+    """Test that a node with one extra on the left has a depth of 2."""
+    from bst import Node
+    a = Node(20)
+    a.left = Node(16)
+    assert a.depth() == 2
+
+def test_depth_tree():
+    from bst import BST
+    b = BST([20])
+    b.insert(16)
+    b.insert(14)
+    b.insert(17)
+    b.insert(14)
+    b.insert(23)
+    assert b.depth() == 3
