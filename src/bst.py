@@ -131,21 +131,25 @@ class BST(object):
         """Return a list that is in value order min to max."""
         if not self.top:
             return []
+        return self.top.in_order()
 
     def post_order(self):
         """Return a list that is in value max to min."""
         if not self.top:
             return []
+        return self.top.post_order()
 
     def pre_order(self):
         """Return a list that orders left to right."""
         if not self.top:
             return []
+        return self.top.pre_order()
 
     def breath_first(self):
         """Return a list left to right root to tips."""
         if not self.top:
             return []
+        return self.top.breath_first()
 
 
 if __name__ == '__main__':
