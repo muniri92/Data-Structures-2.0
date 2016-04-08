@@ -38,14 +38,14 @@ class Node(object):
 class BST(object):
     """Define Binart Search Tree class(BST)."""
 
-    def reset(self):
+    def _reset(self):
         """Reset class variables for testing."""
         self.check_set = set()
         self.top = None
 
     def __init__(self, values=[]):
         """Initialize BST class."""
-        self.reset()
+        self._reset()
         if isinstance(values, list):
             for value in values:
                 self.insert(value)
