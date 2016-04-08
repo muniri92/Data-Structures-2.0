@@ -99,6 +99,18 @@ class BST(object):
             return 0
         return self.top.balance()
 
+    def in_order(self):
+        """Return a list that is in value order min to max."""
+
+    def post_order(self):
+        """Return a list that is in value max to min."""
+
+    def pre_order(self):
+        """Return a list that orders left to right."""
+
+    def breath_first(self):
+        """Return a list left to right root to tips."""
+
 
 if __name__ == '__main__':
     b = BST([20])
