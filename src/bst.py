@@ -34,6 +34,34 @@ class Node(object):
             right_depth = self.right.depth() if self.right is not None else 0
             return (left_depth - right_depth)
 
+    def in_order(self):
+        """Returns a list of node values in order."""
+        if self.value is None:
+            return []
+        elif self.left is None and self.right is None:
+            return [self.value]
+
+   def pre_order(self):
+    """Returns a list of node values in order."""
+    if self.value is None:
+        return []
+    elif self.left is None and self.right is None:
+        return [self.value]
+
+    def post_order(self):
+        """Returns a list of node values in order."""
+        if self.value is None:
+            return []
+        elif self.left is None and self.right is None:
+            return [self.value]
+    
+    def breath_first(self):
+        """Returns a list of node values in order."""
+        if self.value is None:
+            return []
+        elif self.left is None and self.right is None:
+            return [self.value]        
+
 
 class BST(object):
     """Define Binart Search Tree class(BST)."""
@@ -101,15 +129,23 @@ class BST(object):
 
     def in_order(self):
         """Return a list that is in value order min to max."""
+        if not self.top:
+            return []
 
     def post_order(self):
         """Return a list that is in value max to min."""
+        if not self.top:
+            return []
 
     def pre_order(self):
         """Return a list that orders left to right."""
+        if not self.top:
+            return []
 
     def breath_first(self):
         """Return a list left to right root to tips."""
+        if not self.top:
+            return []
 
 
 if __name__ == '__main__':
