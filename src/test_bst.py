@@ -142,3 +142,31 @@ def test_breath_first_empty():
     from bst import Node
     a = Node()
     assert a.breath_first() == []
+
+def test_in_order_one():
+    """Test an empty Node returns a list."""
+    from bst import Node
+    a = Node(20)
+    assert a.in_order() == [20]
+
+
+def test_pre_order_one():
+    """Test an empty Node returns a list."""
+    from bst import Node
+    a = Node(20)
+    assert a.pre_order() == [20]
+
+
+def test_post_order_one():
+    """Test an empty Node returns a list."""
+    from bst import Node
+    a = Node(20)
+    assert a.post_order() == [20]
+
+
+def test_breath_first_one():
+    """Test an empty Node returns a list."""
+    from bst import Node
+    a = Node(20)
+    assert a.breath_first() == [20]
+
