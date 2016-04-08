@@ -26,7 +26,7 @@ def test_insert_left(big_left):
     assert big_left.top.left.value == 16
 
 
-def test_insert_right(big_right):
+def test_insert_right(big_left):
     """Test that insert right works correctly."""
     assert big_left.top.left.right.value == 17
 

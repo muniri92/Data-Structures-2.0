@@ -98,3 +98,13 @@ class BST(object):
         if not self.top:
             return 0
         return self.top.balance()
+
+
+if __name__ == '__main__':
+    b = BST([20])
+    b.contains(20)  # Best case this is an O(1)
+    b.insert(19)
+    b.insert(18)
+    b.insert(17)
+    b.insert(16)
+    b.contains(16)  # Worst case this is also an O(1)
