@@ -40,13 +40,15 @@ class Node(object):
             return []
         elif self.left is None and self.right is None:
             return [self.value]
+        else:
 
    def pre_order(self):
-    """Returns a list of node values in order."""
-    if self.value is None:
-        return []
-    elif self.left is None and self.right is None:
-        return [self.value]
+        """Returns a list of node values in order."""
+        if self.value is None:
+            return []
+        elif self.left is None and self.right is None:
+            return [self.value]
+        else:
 
     def post_order(self):
         """Returns a list of node values in order."""
@@ -54,13 +56,15 @@ class Node(object):
             return []
         elif self.left is None and self.right is None:
             return [self.value]
+        else:
     
     def breath_first(self):
         """Returns a list of node values in order."""
         if self.value is None:
             return []
         elif self.left is None and self.right is None:
-            return [self.value]        
+            return [self.value]
+        else:
 
 
 class BST(object):
