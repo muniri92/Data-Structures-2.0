@@ -35,36 +35,40 @@ class Node(object):
             return (left_depth - right_depth)
 
     def in_order(self):
-        """Returns a list of node values in order."""
+        """Return a list of node values in order."""
         if self.value is None:
             return []
         elif self.left is None and self.right is None:
             return [self.value]
         else:
+            pass
 
-   def pre_order(self):
-        """Returns a list of node values in order."""
+    def pre_order(self):
+        """Return a list of node values in order."""
         if self.value is None:
             return []
         elif self.left is None and self.right is None:
             return [self.value]
         else:
+            pass
 
     def post_order(self):
-        """Returns a list of node values in order."""
+        """Return a list of node values in order."""
         if self.value is None:
             return []
         elif self.left is None and self.right is None:
             return [self.value]
         else:
-    
+            pass
+
     def breath_first(self):
-        """Returns a list of node values in order."""
+        """Return a list of node values in order."""
         if self.value is None:
             return []
         elif self.left is None and self.right is None:
             return [self.value]
         else:
+            pass
 
 
 class BST(object):

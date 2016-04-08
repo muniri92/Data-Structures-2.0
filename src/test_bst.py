@@ -114,3 +114,31 @@ def test_depth_many():
 def test_depth_tree(big_left):
     """Assert that a tree dpeth is three."""
     assert big_left.depth() == 3
+
+
+def test_in_order_empty():
+    """Test an empty Node returns empty list."""
+    from bst import Node
+    a = Node()
+    assert a.in_order() == []
+
+
+def test_pre_order_empty():
+    """Test an empty Node returns empty list."""
+    from bst import Node
+    a = Node()
+    assert a.pre_order() == []
+
+
+def test_post_order_empty():
+    """Test an empty Node returns empty list."""
+    from bst import Node
+    a = Node()
+    assert a.post_order() == []
+
+
+def test_breath_first_empty():
+    """Test an empty Node returns empty list."""
+    from bst import Node
+    a = Node()
+    assert a.breath_first() == []
