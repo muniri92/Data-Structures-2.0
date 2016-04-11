@@ -117,7 +117,7 @@ def test_balance_right():
     b.insert(23)
     b.insert(22)
     assert b.balance() < 0
-    
+
 
 def test_depth_many():
     """Test that a node with one extra on the left has a depth of 2."""

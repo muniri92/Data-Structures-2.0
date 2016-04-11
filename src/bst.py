@@ -171,29 +171,11 @@ class BST(object):
                     d.append(vertex.right)
 
 
-# if __name__ == '__main__':
-#     # b = BST()
-#     b = BST([20])
-#     b.insert(16)
-#     b.insert(14)
-#     b.insert(9)
-#     b.insert(17)
-#     b.insert(23)
-
-#     # breath-first generator
-#     # breath = b.breath_first()
-#     # for ii in breath:
-#     #     print(ii)
-
-#     # pre-order generator
-#     # pre = b.pre_order()
-#     # for ii in pre:
-#     #     print(ii)
-
-#     # b = BST([20])
-#     # b.contains(20)  # Best case this is an O(1)
-#     # b.insert(19)
-#     # b.insert(18)
-#     # b.insert(17)
-#     # b.insert(16)
-#     # b.contains(16)  # Worst case this is also an O(1)
+if __name__ == '__main__':
+    b = BST([20])
+    b.contains(20)  # Best case this is an O(1)
+    b.insert(19)
+    b.insert(18)
+    b.insert(17)
+    b.insert(16)
+    b.contains(16)  # Worst case this is also an O(1)
