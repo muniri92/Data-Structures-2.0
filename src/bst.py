@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Binary Search Tree Module."""
+from collections import deque
 
 
 class Node(object):
@@ -34,41 +35,35 @@ class Node(object):
             right_depth = self.right.depth() if self.right is not None else 0
             return (left_depth - right_depth)
 
-    def in_order(self):
-        """Return a list of node values in order."""
-        if self.value is None:
-            return []
-        elif self.left is None and self.right is None:
-            return [self.value]
-        else:
-            pass
-
     def pre_order(self):
-        """Return a list of node values in order."""
-        if self.value is None:
-            return []
-        elif self.left is None and self.right is None:
-            return [self.value]
-        else:
-            pass
+        """Traverse a tree pre-order."""
+        yield self.value
+        if self.left:
+            for ii in self.left.pre_order():
+                yield ii
+        if self.right:
+            for ii in self.right.pre_order():
+                yield ii
+
+    def in_order(self):
+        """Traverse a tree in-order."""
+        if self.left:
+            for ii in self.left.pre_order():
+                yield ii
+        yield self.value
+        if self.right:
+            for ii in self.right.pre_order():
+                yield ii
 
     def post_order(self):
-        """Return a list of node values in order."""
-        if self.value is None:
-            return []
-        elif self.left is None and self.right is None:
-            return [self.value]
-        else:
-            pass
-
-    def breath_first(self):
-        """Return a list of node values in order."""
-        if self.value is None:
-            return []
-        elif self.left is None and self.right is None:
-            return [self.value]
-        else:
-            pass
+        """Traverse a tree post-order."""
+        if self.left:
+            for ii in self.left.pre_order():
+                yield ii
+        if self.right:
+            for ii in self.right.pre_order():
+                yield ii
+        yield self.value
 
 
 class BST(object):
@@ -83,8 +78,8 @@ class BST(object):
         """Initialize BST class."""
         self._reset()
         if isinstance(values, list):
-            for value in values:
-                self.insert(value)
+            for ii in values:
+                self.insert(ii)
         else:
             raise TypeError("Please package your item into a list!")
 
@@ -135,36 +130,69 @@ class BST(object):
             return 0
         return self.top.balance()
 
+    def pre_order(self):
+        """Return a generator of a pre-order traversal."""
+        if self.top:
+            for ii in self.top.pre_order():
+                yield ii
+        else:
+            print('Empty Tree!')
+
     def in_order(self):
-        """Return a list that is in value order min to max."""
-        if not self.top:
-            return []
-        return self.top.in_order()
+        """Return a generator of a in-order traversal."""
+        if self.top:
+            for ii in self.top.pre_order():
+                yield ii
+        else:
+            print('Empty Tree!')
 
     def post_order(self):
-        """Return a list that is in value max to min."""
-        if not self.top:
-            return []
-        return self.top.post_order()
-
-    def pre_order(self):
-        """Return a list that orders left to right."""
-        if not self.top:
-            return []
-        return self.top.pre_order()
+        """Return a generator of a post-order traversal."""
+        if self.top:
+            for ii in self.top.pre_order():
+                yield ii
+        else:
+            print('Empty Tree!')
 
     def breath_first(self):
-        """Return a list left to right root to tips."""
-        if not self.top:
-            return []
-        return self.top.breath_first()
+        """
+        Breadth First Traveral using a Deque as a queue.
+
+        Is used as a generator.
+        """
+        d = deque([self.top])
+        while d:
+            vertex = d.popleft()
+            yield vertex.value
+            if vertex.left:
+                d.append(vertex.left)
+            if vertex.right:
+                d.append(vertex.right)
 
 
 if __name__ == '__main__':
+    # b = BST()
     b = BST([20])
-    b.contains(20)  # Best case this is an O(1)
-    b.insert(19)
-    b.insert(18)
-    b.insert(17)
     b.insert(16)
-    b.contains(16)  # Worst case this is also an O(1)
+    b.insert(14)
+    b.insert(9)
+    b.insert(17)
+    b.insert(23)
+
+    # breath-first generator
+    # breath = b.breath_first()
+    # for ii in breath:
+    #     print(ii)
+
+    # pre-order generator
+    # pre = b.pre_order()
+    # for ii in pre:
+    #     print(ii)
+
+    # b = BST([20])
+    # b.contains(20)  # Best case this is an O(1)
+    # b.insert(19)
+    # b.insert(18)
+    # b.insert(17)
+    # b.insert(16)
+    # b.contains(16)  # Worst case this is also an O(1)
