@@ -18,3 +18,5 @@ A feature of our binary tree is to find a value is an O(1).
     2. pre_order(self):  will return the values in the tree using pre-order traversal, one at a time.
     3.post_order(self):  will return the values in the tree using post_order traversal, one at a time.
     4. breadth_first(self): will return the values in the tree using breadth-first traversal, one at a time.
+
+    Helpful Resource to better understand how to implement the breadth first traversal: (http://stackoverflow.com/questions/1894846/printing-bfs-binary-tree-in-level-order-with-specific-formatting)
