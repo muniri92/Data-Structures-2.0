@@ -141,7 +141,7 @@ class BST(object):
     def in_order(self):
         """Return a generator of a in-order traversal."""
         if self.top:
-            for ii in self.top.pre_order():
+            for ii in self.top.in_order():
                 yield ii
         else:
             print('Empty Tree!')
@@ -149,7 +149,7 @@ class BST(object):
     def post_order(self):
         """Return a generator of a post-order traversal."""
         if self.top:
-            for ii in self.top.pre_order():
+            for ii in self.top.post_order():
                 yield ii
         else:
             print('Empty Tree!')
@@ -170,29 +170,29 @@ class BST(object):
                 d.append(vertex.right)
 
 
-if __name__ == '__main__':
-    # b = BST()
-    b = BST([20])
-    b.insert(16)
-    b.insert(14)
-    b.insert(9)
-    b.insert(17)
-    b.insert(23)
+# if __name__ == '__main__':
+#     # b = BST()
+#     b = BST([20])
+#     b.insert(16)
+#     b.insert(14)
+#     b.insert(9)
+#     b.insert(17)
+#     b.insert(23)
 
-    # breath-first generator
-    # breath = b.breath_first()
-    # for ii in breath:
-    #     print(ii)
+#     # breath-first generator
+#     # breath = b.breath_first()
+#     # for ii in breath:
+#     #     print(ii)
 
-    # pre-order generator
-    # pre = b.pre_order()
-    # for ii in pre:
-    #     print(ii)
+#     # pre-order generator
+#     # pre = b.pre_order()
+#     # for ii in pre:
+#     #     print(ii)
 
-    # b = BST([20])
-    # b.contains(20)  # Best case this is an O(1)
-    # b.insert(19)
-    # b.insert(18)
-    # b.insert(17)
-    # b.insert(16)
-    # b.contains(16)  # Worst case this is also an O(1)
+#     # b = BST([20])
+#     # b.contains(20)  # Best case this is an O(1)
+#     # b.insert(19)
+#     # b.insert(18)
+#     # b.insert(17)
+#     # b.insert(16)
+#     # b.contains(16)  # Worst case this is also an O(1)
