@@ -114,3 +114,87 @@ def test_depth_many():
 def test_depth_tree(big_left):
     """Assert that a tree dpeth is three."""
     assert big_left.depth() == 3
+
+
+def test_in_order_empty():
+    """Test an empty Node returns empty list."""
+    from bst import Node
+    a = Node()
+    assert a.in_order() == []
+
+
+def test_pre_order_empty():
+    """Test an empty Node returns empty list."""
+    from bst import Node
+    a = Node()
+    assert a.pre_order() == []
+
+
+def test_post_order_empty():
+    """Test an empty Node returns empty list."""
+    from bst import Node
+    a = Node()
+    assert a.post_order() == []
+
+
+def test_breath_first_empty():
+    """Test an empty Node returns empty list."""
+    from bst import Node
+    a = Node()
+    assert a.breath_first() == []
+
+
+def test_in_order_one():
+    """Test an empty Node returns a list."""
+    from bst import Node
+    a = Node(20)
+    assert a.in_order() == [20]
+
+
+def test_pre_order_one():
+    """Test an empty Node returns a list."""
+    from bst import Node
+    a = Node(20)
+    assert a.pre_order() == [20]
+
+
+def test_post_order_one():
+    """Test an empty Node returns a list."""
+    from bst import Node
+    a = Node(20)
+    assert a.post_order() == [20]
+
+
+def test_breath_first_one():
+    """Test an empty Node returns a list."""
+    from bst import Node
+    a = Node(20)
+    assert a.breath_first() == [20]
+
+
+def test_in_order_tree_empty():
+    """Test an empty Node returns empty list."""
+    from bst import BST
+    a = BST()
+    assert a.in_order() == []
+
+
+def test_pre_order_tree_empty():
+    """Test an empty Node returns empty list."""
+    from bst import BST
+    a = BST()
+    assert a.pre_order() == []
+
+
+def test_post_order_tree_empty():
+    """Test an empty Node returns empty list."""
+    from bst import BST
+    a = BST()
+    assert a.post_order() == []
+
+
+def test_breath_first_tree_empty():
+    """Test an empty Node returns empty list."""
+    from bst import BST
+    a = BST()
+    assert a.breath_first() == []

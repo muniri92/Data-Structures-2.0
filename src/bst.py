@@ -34,6 +34,54 @@ class Node(object):
             right_depth = self.right.depth() if self.right is not None else 0
             return (left_depth - right_depth)
 
+    def in_order(self):
+        """Return a list of node values in order."""
+        print("you are in the node")
+        if self.value is None:
+            return []
+        elif self.left is None and self.right is None:
+            yield [self.value]
+        else:
+            if self.right:
+                self.right.post_order()
+            if self.left:
+                self.left.post_order
+
+    def pre_order(self):
+        """Return a list of node values in order."""
+        if self.value is None:
+            return []
+        elif self.left is None and self.right is None:
+            yield [self.value]
+        else:
+            print(self.value)
+            yield self.value
+            if self.left:
+                self.left.pre_order()
+            if self.right:
+                self.right.pre_order()
+
+    def post_order(self):
+        """Return a list of node values in order."""
+        if self.value is None:
+            return []
+        elif self.left is None and self.right is None:
+            yield [self.value]
+        else:
+            if self.right:
+                self.right.post_order()
+            if self.left:
+                self.left.post_order
+
+    def breath_first(self):
+        """Return a list of node values in order."""
+        if self.value is None:
+            return []
+        elif self.left is None and self.right is None:
+            return [self.value]
+        else:
+            pass
+
 
 class BST(object):
     """Define Binart Search Tree class(BST)."""
@@ -99,12 +147,38 @@ class BST(object):
             return 0
         return self.top.balance()
 
+    def in_order(self):
+        """Return a list that is in value order min to max."""
+        print("you are in the tree")
+        yield [i for i in self.top.in_order()]
+        print("You are leaving the tree.")
+
+    def post_order(self):
+        """Return a list that is in value max to min."""
+        if not self.top:
+            return []
+        yield [i for i in self.top.post_order()]
+
+    def pre_order(self):
+        """Return a list that orders left to right."""
+        if not self.top:
+            return []
+        yield [i for i in self.top.pre_order()]
+
+    def breath_first(self):
+        """Return a list left to right root to tips."""
+        if not self.top:
+            return []
+        return self.top.breath_first()
+
 
 if __name__ == '__main__':
+    print("You made it here.")
     b = BST([20])
     b.contains(20)  # Best case this is an O(1)
     b.insert(19)
     b.insert(18)
     b.insert(17)
     b.insert(16)
-    b.contains(16)  # Worst case this is also an O(1)
+    print(b.contains(16))  # Worst case this is also an O(1)
+    print(b.in_order())
