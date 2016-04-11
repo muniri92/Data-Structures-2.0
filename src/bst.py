@@ -163,11 +163,12 @@ class BST(object):
         d = deque([self.top])
         while d:
             vertex = d.popleft()
-            yield vertex.value
-            if vertex.left:
-                d.append(vertex.left)
-            if vertex.right:
-                d.append(vertex.right)
+            if vertex:
+                yield vertex.value
+                if vertex.left:
+                    d.append(vertex.left)
+                if vertex.right:
+                    d.append(vertex.right)
 
 
 # if __name__ == '__main__':
