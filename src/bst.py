@@ -110,11 +110,6 @@ class BST(object):
 
     def contains(self, value):
         """Return a boolean if the node value is contained."""
-        # if value in self.check_set:
-        #     return True
-        # return False
-        # if self.contains(value):
-        #     pass
         if self.top:
             cursor = self.top
             while cursor is not None:
@@ -182,14 +177,56 @@ class BST(object):
                 if vertex.right:
                     d.append(vertex.right)
 
+    def _no_children(self, delete_node):
+        """Delete the desired node with no children and return None."""
+        if delete_node.value > delete_node.parent.value:
+            delete_node.parent.right = None
+        else:
+            delete_node.parent.left = None
+        return
+
+    def _one_child(self, delete_node, child_direction):
+        """Delete a node with one child and return None."""
+        if child_direction == 'left':
+            if delete_node.value < delete_node.parent.value:
+                delete_node.parent.left = delete_node.left
+                delete_node.left.parent = delete_node.parent
+            else:
+                delete_node.parent.left = delete_node.right
+                delete_node.right.parent = delete_node.parent
+        if child_direction == 'right':
+            if delete_node.value > delete_node.parent.value:
+                delete_node.parent.right = delete_node.right
+                delete_node.right.parent = delete_node.parent
+            else:
+                delete_node.parent.right = delete_node.left
+                delete_node.left.parent = delete_node.parent
+        return
+
     def delete(self, val):
         """Remove the value of choice from the BST."""
+        if self.top:
+            cursor = self.top
+            while cursor is not None:
+                if val == cursor.value:
+                    if cursor.left and cursor.right:
+                        return self._full_house(cursor)
+                    elif cursor.left:
+                        return self._one_child(cursor, 'left')
+                    elif cursor.right:
+                        return self._one_child(cursor, 'right')
+                    else:
+                        return self._no_children(cursor)
+                if cursor.value > val:
+                    cursor = cursor.left
+                else:
+                    cursor = cursor.right
 
 if __name__ == '__main__':
     b = BST([20])
-    b.contains(20)  # Best case this is an O(1)
+    b.contains(20)  # Best case this is an O(n)
     b.insert(19)
     b.insert(18)
     b.insert(17)
     b.insert(16)
-    b.contains(16)  # Worst case this is also an O(1)
+    b.contains(16)  # Worst case this is also an O(n)
