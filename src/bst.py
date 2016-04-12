@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Binary Search Tree Module."""
 from collections import deque
+import random
+import io
 
 
 class Node(object):
@@ -64,6 +66,26 @@ class Node(object):
             for ii in self.right.pre_order():
                 yield ii
         yield self.value
+
+    def _get_dot(self):
+        """Recursively prepare a dot graph entry for this node."""
+        if self.left is not None:
+            yield "\t%s -> %s;" % (self.value, self.left.value)
+            for i in self.left._get_dot():
+                yield i
+        elif self.right is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.value, r)
+        if self.right is not None:
+            yield "\t%s -> %s;" % (self.value, self.right.value)
+            for i in self.right._get_dot():
+                yield i
+        elif self.left is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.value, r)
+
 
 
 class BST(object):
@@ -231,6 +253,23 @@ class BST(object):
                 else:
                     cursor = cursor.right
 
+    def write_graph(self):
+        """Write dots to a file."""
+        file = io.open('graph.gv', 'w')
+        file.write(self.get_dot())
+        file.close()
+        print('graph.gv is update')
+
+    def get_dot(self):
+        """Return the tree with root 'self' as a dot graph."""
+        return "digraph G{\n%s}" % ("" if self.top is None else (
+            "\t%s;\n%s\n" % (
+                self.top.value,
+                "\n".join(self.top._get_dot())
+            )
+        ))
+
+
 if __name__ == '__main__':
     b = BST([20])
     b.contains(20)  # Best case this is an O(n)
@@ -239,3 +278,4 @@ if __name__ == '__main__':
     b.insert(17)
     b.insert(16)
     b.contains(16)  # Worst case this is also an O(n)
+    b.write_graph()
