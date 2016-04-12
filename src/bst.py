@@ -183,7 +183,6 @@ class BST(object):
             delete_node.parent.right = None
         else:
             delete_node.parent.left = None
-        return
 
     def _one_child(self, delete_node, child_direction):
         """Delete a node with one child and return None."""
@@ -201,7 +200,16 @@ class BST(object):
             else:
                 delete_node.parent.right = delete_node.left
                 delete_node.left.parent = delete_node.parent
-        return
+
+    def _two_children(self, delete_node):
+        """Delete a node with two children."""
+        cursor = delete_node.right
+        while cursor.left is not None:
+            cursor = cursor.left
+        delete_node.value = cursor.value
+        if cursor.right:
+            self._one_child(cursor, 'right')
+        self._no_children(cursor)
 
     def delete(self, val):
         """Remove the value of choice from the BST."""
@@ -210,13 +218,14 @@ class BST(object):
             while cursor is not None:
                 if val == cursor.value:
                     if cursor.left and cursor.right:
-                        return self._full_house(cursor)
+                        self._two_children(cursor)
                     elif cursor.left:
-                        return self._one_child(cursor, 'left')
+                        self._one_child(cursor, 'left')
                     elif cursor.right:
-                        return self._one_child(cursor, 'right')
+                        self._one_child(cursor, 'right')
                     else:
-                        return self._no_children(cursor)
+                        self._no_children(cursor)
+                    break
                 if cursor.value > val:
                     cursor = cursor.left
                 else:
