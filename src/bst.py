@@ -277,5 +277,6 @@ if __name__ == '__main__':
     b.insert(18)
     b.insert(17)
     b.insert(16)
+    b.insert(23)
     b.contains(16)  # Worst case this is also an O(n)
     b.write_graph()
