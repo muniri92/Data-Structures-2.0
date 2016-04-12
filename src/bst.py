@@ -199,7 +199,7 @@ class BST(object):
                 if vertex.right:
                     d.append(vertex.right)
 
-    def _no_children(self, delete_node):
+    def _no_children(self, delete_node): # THIS WORKS
         """Delete the desired node with no children and return None."""
         if delete_node.value > delete_node.parent.value:
             delete_node.parent.right = None
@@ -209,19 +209,19 @@ class BST(object):
     def _one_child(self, delete_node, child_direction):
         """Delete a node with one child and return None."""
         if child_direction == 'left':
-            if delete_node.value < delete_node.parent.value:
+            if delete_node.value < delete_node.parent.value: # THIS WORKS
                 delete_node.parent.left = delete_node.left
                 delete_node.left.parent = delete_node.parent
             else:
-                delete_node.parent.left = delete_node.right
-                delete_node.right.parent = delete_node.parent
+                delete_node.parent.right = delete_node.left
+                delete_node.left.parent = delete_node.parent
         if child_direction == 'right':
-            if delete_node.value > delete_node.parent.value:
+            if delete_node.value > delete_node.parent.value:  # THIS WORKS
                 delete_node.parent.right = delete_node.right
                 delete_node.right.parent = delete_node.parent
             else:
-                delete_node.parent.right = delete_node.left
-                delete_node.left.parent = delete_node.parent
+                delete_node.parent.left = delete_node.right
+                delete_node.right.parent = delete_node.parent
 
     def _two_children(self, delete_node):
         """Delete a node with two children."""
@@ -282,6 +282,10 @@ if __name__ == '__main__':
     b.insert(17)
     b.insert(16)
     b.insert(23)
+    b.insert(25)
     b.contains(16)  # Worst case this is also an O(n)
     b.delete(19)
+    b.insert(24)
+    b.insert(16.5)
+    b.delete(25)
     b.write_graph()
