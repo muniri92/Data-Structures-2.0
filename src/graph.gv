@@ -4,11 +4,16 @@ digraph G{
 	19 -> 18;
 	18 -> 17;
 	17 -> 16;
-	null469566066 [shape=point];
-	17 -> null469566066;
-	null29227518 [shape=point];
-	18 -> null29227518;
-	null953080555 [shape=point];
-	19 -> null953080555;
+	null57488869 [shape=point];
+	17 -> null57488869;
+	null264590806 [shape=point];
+	18 -> null264590806;
+	19 -> 19.5;
+	19.5 -> 19.2;
+	null54137705 [shape=point];
+	19.2 -> null54137705;
+	19.2 -> 19.25;
+	null887089553 [shape=point];
+	19.5 -> null887089553;
 	20 -> 23;
 }

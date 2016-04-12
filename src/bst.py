@@ -231,7 +231,8 @@ class BST(object):
         delete_node.value = cursor.value
         if cursor.right:
             self._one_child(cursor, 'right')
-        self._no_children(cursor)
+        else:
+            self._no_children(cursor)
 
     def delete(self, val):
         """Remove the value of choice from the BST."""
@@ -274,9 +275,13 @@ if __name__ == '__main__':
     b = BST([20])
     b.contains(20)  # Best case this is an O(n)
     b.insert(19)
+    b.insert(19.5)
+    b.insert(19.2)
+    b.insert(19.25)
     b.insert(18)
     b.insert(17)
     b.insert(16)
     b.insert(23)
     b.contains(16)  # Worst case this is also an O(n)
+    b.delete(19)
     b.write_graph()

@@ -274,9 +274,15 @@ def test_delete_not_there(traversals):
     """Test the deletion of a node that not exist returns None."""
     outcome = traversals.delete(5)
     assert outcome is None
-    
+
 
 def test_delete_no_kids_there(traversals):
     """Test the deletion of a node that not exist returns None."""
     outcome = traversals.delete(4)
+    assert outcome is None
+
+
+def test_delete_one_kids_there(traversals):
+    """Test the deletion of a node that not exist returns None."""
+    outcome = traversals.delete(14)
     assert outcome is None
