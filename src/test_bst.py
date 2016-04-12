@@ -282,7 +282,44 @@ def test_delete_no_kids_there(traversals):
     assert outcome is None
 
 
+def test_delete_no_kids_removed(traversals):
+    """Test the deletion of a node that not exist returns None."""
+    assert traversals.contains(4)
+    traversals.delete(4)
+    assert traversals.contains(4) is False
+
+
 def test_delete_one_kids_there(traversals):
     """Test the deletion of a node that not exist returns None."""
     outcome = traversals.delete(14)
     assert outcome is None
+
+
+def test_delete_one_kid_removed(traversals):
+    """Test the deletion of a node that not exist returns None."""
+    assert traversals.contains(14)
+    traversals.delete(14)
+    assert traversals.contains(14) is False
+
+
+def test_delete_two_kids_there(traversals):
+    """Test the deletion of a node that not exist returns None."""
+    traversals.insert(16.5)
+    outcome = traversals.delete(16)
+    assert outcome is None
+
+
+def test_delete_size_works(traversals):
+    """Test the deletion of a node that not exist returns None."""
+    traversals.insert(16.5)
+    outcome = traversals.delete(16)
+    assert outcome is None
+
+
+def test_delete_two_kid_removed(traversals):
+    """Test the deletion of a node that not exist returns None."""
+    assert traversals.contains(16)
+    traversals.insert(16.5)
+    pre_delete = traversals.size()
+    traversals.delete(16)
+    assert pre_delete == (traversals.size() + 1)

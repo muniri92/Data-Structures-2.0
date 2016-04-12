@@ -87,7 +87,6 @@ class Node(object):
             yield "\t%s -> null%s;" % (self.value, r)
 
 
-
 class BST(object):
     """Define Binart Search Tree class(BST)."""
 
@@ -199,7 +198,7 @@ class BST(object):
                 if vertex.right:
                     d.append(vertex.right)
 
-    def _no_children(self, delete_node): # THIS WORKS
+    def _no_children(self, delete_node):
         """Delete the desired node with no children and return None."""
         if delete_node.value > delete_node.parent.value:
             delete_node.parent.right = None
@@ -209,14 +208,14 @@ class BST(object):
     def _one_child(self, delete_node, child_direction):
         """Delete a node with one child and return None."""
         if child_direction == 'left':
-            if delete_node.value < delete_node.parent.value: # THIS WORKS
+            if delete_node.value < delete_node.parent.value:
                 delete_node.parent.left = delete_node.left
                 delete_node.left.parent = delete_node.parent
             else:
                 delete_node.parent.right = delete_node.left
                 delete_node.left.parent = delete_node.parent
         if child_direction == 'right':
-            if delete_node.value > delete_node.parent.value:  # THIS WORKS
+            if delete_node.value > delete_node.parent.value:
                 delete_node.parent.right = delete_node.right
                 delete_node.right.parent = delete_node.parent
             else:
@@ -240,6 +239,7 @@ class BST(object):
             cursor = self.top
             while cursor is not None:
                 if val == cursor.value:
+                    self.length -= 1
                     if cursor.left and cursor.right:
                         self._two_children(cursor)
                     elif cursor.left:
