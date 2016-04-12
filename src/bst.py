@@ -71,7 +71,7 @@ class BST(object):
 
     def _reset(self):
         """Reset class variables for testing."""
-        self.check_set = set()
+        self.length = 0
         self.top = None
 
     def __init__(self, values=[]):
@@ -106,17 +106,29 @@ class BST(object):
                 else:
                     new_node.parent = old_cursor
                     old_cursor.right = new_node
-            self.check_set.add(new_node.value)
+            self.length += 1
 
     def contains(self, value):
         """Return a boolean if the node value is contained."""
-        if value in self.check_set:
-            return True
+        # if value in self.check_set:
+        #     return True
+        # return False
+        # if self.contains(value):
+        #     pass
+        if self.top:
+            cursor = self.top
+            while cursor is not None:
+                if value == cursor.value:
+                    return True
+                if cursor.value > value:
+                    cursor = cursor.left
+                else:
+                    cursor = cursor.right
         return False
 
     def size(self):
         """Return the values in the tree."""
-        return len(self.check_set)
+        return self.length
 
     def depth(self):
         """Return the number of levels in the tree."""
@@ -170,6 +182,8 @@ class BST(object):
                 if vertex.right:
                     d.append(vertex.right)
 
+    def delete(self, val):
+        """Remove the value of choice from the BST."""
 
 if __name__ == '__main__':
     b = BST([20])
