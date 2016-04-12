@@ -266,3 +266,17 @@ def test_breath_first_filled(traversals):
     for ii in breath:
         breath_list.append(ii)
     assert breath_list == [20, 16, 25, 14, 17, 22, 4, 15]
+
+
+# delete tests
+
+def test_delete_not_there(traversals):
+    """Test the deletion of a node that not exist returns None."""
+    outcome = traversals.delete(5)
+    assert outcome is None
+    
+
+def test_delete_no_kids_there(traversals):
+    """Test the deletion of a node that not exist returns None."""
+    outcome = traversals.delete(4)
+    assert outcome is None
