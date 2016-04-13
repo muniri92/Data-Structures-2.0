@@ -16,6 +16,14 @@ def big_left():
     return b
 
 
+def test_no_string():
+    """Test that error is raise when anything other then an int is inserted."""
+    from bst import BST
+    b = BST([20])
+    with pytest.raises(TypeError):
+        b.insert("value")
+
+
 def test_insert_top(big_left):
     """Test that insert works."""
     assert big_left.top.value == 20
@@ -101,100 +109,3 @@ def test_balance_right():
     b.insert(23)
     b.insert(22)
     assert b.balance() < 0
-
-
-def test_depth_many():
-    """Test that a node with one extra on the left has a depth of 2."""
-    from bst import Node
-    a = Node(20)
-    a.left = Node(16)
-    assert a.depth() == 2
-
-
-def test_depth_tree(big_left):
-    """Assert that a tree dpeth is three."""
-    assert big_left.depth() == 3
-
-
-def test_in_order_empty():
-    """Test an empty Node returns empty list."""
-    from bst import Node
-    a = Node()
-    assert a.in_order() == []
-
-
-def test_pre_order_empty():
-    """Test an empty Node returns empty list."""
-    from bst import Node
-    a = Node()
-    assert a.pre_order() == []
-
-
-def test_post_order_empty():
-    """Test an empty Node returns empty list."""
-    from bst import Node
-    a = Node()
-    assert a.post_order() == []
-
-
-def test_breath_first_empty():
-    """Test an empty Node returns empty list."""
-    from bst import Node
-    a = Node()
-    assert a.breath_first() == []
-
-
-def test_in_order_one():
-    """Test an empty Node returns a list."""
-    from bst import Node
-    a = Node(20)
-    assert a.in_order() == [20]
-
-
-def test_pre_order_one():
-    """Test an empty Node returns a list."""
-    from bst import Node
-    a = Node(20)
-    assert a.pre_order() == [20]
-
-
-def test_post_order_one():
-    """Test an empty Node returns a list."""
-    from bst import Node
-    a = Node(20)
-    assert a.post_order() == [20]
-
-
-def test_breath_first_one():
-    """Test an empty Node returns a list."""
-    from bst import Node
-    a = Node(20)
-    assert a.breath_first() == [20]
-
-
-def test_in_order_tree_empty():
-    """Test an empty Node returns empty list."""
-    from bst import BST
-    a = BST()
-    assert a.in_order() == []
-
-
-def test_pre_order_tree_empty():
-    """Test an empty Node returns empty list."""
-    from bst import BST
-    a = BST()
-    assert a.pre_order() == []
-
-
-def test_post_order_tree_empty():
-    """Test an empty Node returns empty list."""
-    from bst import BST
-    a = BST()
-    assert a.post_order() == []
-
-
-def test_breath_first_tree_empty():
-    """Test an empty Node returns empty list."""
-    from bst import BST
-    a = BST()
-    assert a.breath_first() == []
