@@ -8,11 +8,11 @@ def big_left():
     """Fixture for testing."""
     from bst import BST
     b = BST([20])
-    b.insert(16)
+    b.insert(16.)
     b.insert(14)
-    b.insert(17)
+    b.insert(17.4)
     b.insert(14)
-    b.insert(23)
+    b.insert(23.2)
     return b
 
 
@@ -32,6 +32,14 @@ def traversals():
     return b
 
 
+def test_no_string():
+    """Test that error is raise when anything other then an int is inserted."""
+    from bst import BST
+    b = BST([20])
+    with pytest.raises(TypeError):
+        b.insert("value")
+
+
 def test_insert_top(big_left):
     """Test that insert works."""
     assert big_left.top.value == 20
@@ -44,7 +52,7 @@ def test_insert_left(big_left):
 
 def test_insert_right(big_left):
     """Test that insert right works correctly."""
-    assert big_left.top.left.right.value == 17
+    assert big_left.top.left.right.value == 17.4
 
 
 def test_contains(big_left):
