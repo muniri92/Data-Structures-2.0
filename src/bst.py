@@ -106,28 +106,31 @@ class BST(object):
 
     def insert(self, value):
         """Insert a value into the binary heap."""
-        if self.contains(value):
-            pass
-        else:
-            cursor = self.top
-            new_node = Node(value)
-            if self.top is None:
-                self.top = new_node
+        if type(value) == float or type(value) == int:
+            if self.contains(value):
+                pass
             else:
-                while cursor is not None:
-                    if cursor.value > new_node.value:
-                        old_cursor = cursor
-                        cursor = cursor.left
-                    else:
-                        old_cursor = cursor
-                        cursor = cursor.right
-                if old_cursor.value > new_node.value:
-                    new_node.parent = old_cursor
-                    old_cursor.left = new_node
+                cursor = self.top
+                new_node = Node(value)
+                if self.top is None:
+                    self.top = new_node
                 else:
-                    new_node.parent = old_cursor
-                    old_cursor.right = new_node
-            self.length += 1
+                    while cursor is not None:
+                        if cursor.value > new_node.value:
+                            old_cursor = cursor
+                            cursor = cursor.left
+                        else:
+                            old_cursor = cursor
+                            cursor = cursor.right
+                    if old_cursor.value > new_node.value:
+                        new_node.parent = old_cursor
+                        old_cursor.left = new_node
+                    else:
+                        new_node.parent = old_cursor
+                        old_cursor.right = new_node
+                self.length += 1
+        else:
+            raise TypeError("This tree only accepts integers or floats.")
 
     def contains(self, value):
         """Return a boolean if the node value is contained."""

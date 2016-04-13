@@ -32,6 +32,14 @@ def traversals():
     return b
 
 
+def test_no_string():
+    """Test that error is raise when anything other then an int is inserted."""
+    from bst import BST
+    b = BST([20])
+    with pytest.raises(TypeError):
+        b.insert("value")
+
+
 def test_insert_top(big_left):
     """Test that insert works."""
     assert big_left.top.value == 20
