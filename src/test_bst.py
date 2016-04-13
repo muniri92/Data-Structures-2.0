@@ -8,9 +8,9 @@ def big_left():
     """Fixture for testing."""
     from bst import BST
     b = BST([20])
-    b.insert(16)
+    b.insert(16.5)
     b.insert(14)
-    b.insert(17)
+    b.insert(17.4)
     b.insert(14)
     b.insert(23)
     return b
@@ -31,12 +31,12 @@ def test_insert_top(big_left):
 
 def test_insert_left(big_left):
     """Test that insert smaller value goes left."""
-    assert big_left.top.left.value == 16
+    assert big_left.top.left.value == 16.5
 
 
 def test_insert_right(big_left):
     """Test that insert right works correctly."""
-    assert big_left.top.left.right.value == 17
+    assert big_left.top.left.right.value == 17.4
 
 
 def test_contains(big_left):

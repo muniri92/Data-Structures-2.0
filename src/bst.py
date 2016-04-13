@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Binary Search Tree Module."""
+from collections import deque
 
 
 class Node(object):
@@ -47,8 +48,8 @@ class BST(object):
         """Initialize BST class."""
         self._reset()
         if isinstance(values, list):
-            for value in values:
-                self.insert(value)
+            for ii in values:
+                self.insert(ii)
         else:
             raise TypeError("Please package your item into a list!")
 
