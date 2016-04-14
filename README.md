@@ -20,3 +20,6 @@ A feature of our binary tree is to find a value is an O(1).
     4. breadth_first(self): will return the values in the tree using breadth-first traversal, one at a time.
 
     Helpful Resource to better understand how to implement the breadth first traversal: (http://stackoverflow.com/questions/1894846/printing-bfs-binary-tree-in-level-order-with-specific-formatting)
+
+# Delete Method
+    - Remove value from the tree if present, if not present this method is a no-op. Return None in all cases

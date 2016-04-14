@@ -32,6 +32,14 @@ def traversals():
     return b
 
 
+def test_no_string():
+    """Test that error is raise when anything other then an int is inserted."""
+    from bst import BST
+    b = BST([20])
+    with pytest.raises(TypeError):
+        b.insert("value")
+
+
 def test_insert_top(big_left):
     """Test that insert works."""
     assert big_left.top.value == 20
@@ -140,8 +148,8 @@ def test_in_order_empty():
     b = BST()
     in_ord = b.in_order()
     in_ord_list = []
-    for ii in in_ord:
-        in_ord_list.append(ii)
+    for val in in_ord:
+        in_ord_list.append(val)
     assert in_ord_list == []
 
 
@@ -151,8 +159,8 @@ def test_in_order_solo():
     b = BST([20])
     in_ord = b.in_order()
     in_ord_list = []
-    for ii in in_ord:
-        in_ord_list.append(ii)
+    for val in in_ord:
+        in_ord_list.append(val)
     assert in_ord_list == [20]
 
 
@@ -161,8 +169,8 @@ def test_in_order_filled(traversals):
     b = traversals
     in_ord = b.in_order()
     in_ord_list = []
-    for ii in in_ord:
-        in_ord_list.append(ii)
+    for val in in_ord:
+        in_ord_list.append(val)
     assert in_ord_list == [16, 14, 4, 15, 17, 20, 25, 22]
 
 
@@ -174,8 +182,8 @@ def test_pre_order_empty():
     b = BST()
     pre_ord = b.pre_order()
     pre_ord_list = []
-    for ii in pre_ord:
-        pre_ord_list.append(ii)
+    for val in pre_ord:
+        pre_ord_list.append(val)
     assert pre_ord_list == []
 
 
@@ -185,8 +193,8 @@ def test_pre_order_solo():
     b = BST([132])
     pre_ord = b.pre_order()
     pre_ord_list = []
-    for ii in pre_ord:
-        pre_ord_list.append(ii)
+    for val in pre_ord:
+        pre_ord_list.append(val)
     assert pre_ord_list == [132]
 
 
@@ -195,8 +203,8 @@ def test_pre_order_filled(traversals):
     b = traversals
     pre_ord = b.pre_order()
     pre_ord_list = []
-    for ii in pre_ord:
-        pre_ord_list.append(ii)
+    for val in pre_ord:
+        pre_ord_list.append(val)
     assert pre_ord_list == [20, 16, 14, 4, 15, 17, 25, 22]
 
 
@@ -208,8 +216,8 @@ def test_post_order_empty():
     b = BST()
     post_ord = b.post_order()
     post_ord_list = []
-    for ii in post_ord:
-        post_ord_list.append(ii)
+    for val in post_ord:
+        post_ord_list.append(val)
     assert post_ord_list == []
 
 
@@ -219,8 +227,8 @@ def test_post_order_solo():
     b = BST([35])
     post_ord = b.post_order()
     post_ord_list = []
-    for ii in post_ord:
-        post_ord_list.append(ii)
+    for val in post_ord:
+        post_ord_list.append(val)
     assert post_ord_list == [35]
 
 
@@ -229,8 +237,8 @@ def test_post_order_filled(traversals):
     b = traversals
     post_ord = b.post_order()
     post_ord_list = []
-    for ii in post_ord:
-        post_ord_list.append(ii)
+    for val in post_ord:
+        post_ord_list.append(val)
     assert post_ord_list == [16, 14, 4, 15, 17, 25, 22, 20]
 
 
@@ -242,8 +250,8 @@ def test_breath_first_empty():
     b = BST()
     breath = b.breath_first()
     breath_first_list = []
-    for ii in breath:
-        breath_first_list.append(ii)
+    for val in breath:
+        breath_first_list.append(val)
     assert breath_first_list == []
 
 
@@ -253,8 +261,8 @@ def test_breath_first_solo():
     b = BST([25])
     breath = b.breath_first()
     breath_first_list = []
-    for ii in breath:
-        breath_first_list.append(ii)
+    for val in breath:
+        breath_first_list.append(val)
     assert breath_first_list == [25]
 
 
@@ -263,6 +271,56 @@ def test_breath_first_filled(traversals):
     b = traversals
     breath = b.breath_first()
     breath_list = []
-    for ii in breath:
-        breath_list.append(ii)
+    for val in breath:
+        breath_list.append(val)
     assert breath_list == [20, 16, 25, 14, 17, 22, 4, 15]
+
+
+# DELETE TEST
+
+def test_delete_no_kids(traversals):
+    """Test the deletion of a node with no children are no longer contained."""
+    assert traversals.contains(4) is True
+    traversals.delete(4)
+    assert traversals.contains(4) is False
+
+
+def test_delete_no_kid_size(traversals):
+    """Test deleting a node with no childern will return the correct size."""
+    assert traversals.contains(4) is True
+    pre_delete = traversals.size()
+    traversals.delete(4)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
+
+
+def test_delete_one_kid(traversals):
+    """Test the deletion of a node with 1 children are no longer contained."""
+    assert traversals.contains(16) is True
+    traversals.delete(16)
+    assert traversals.contains(16) is False
+
+
+def test_delete_one_kid_size(traversals):
+    """Test deleting a node with 1 child will return the correct size."""
+    assert traversals.contains(16) is True
+    pre_delete = traversals.size()
+    traversals.delete(16)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
+
+
+def test_delete_two_kids(traversals):
+    """Test the deletion of a node with 2 children are no longer contained."""
+    assert traversals.contains(14) is True
+    traversals.delete(14)
+    assert traversals.contains(14) is False
+
+
+def test_delete_two_kid_size(traversals):
+    """Test deleting a node with 2 child will return the correct size."""
+    assert traversals.contains(14) is True
+    pre_delete = traversals.size()
+    traversals.delete(14)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
