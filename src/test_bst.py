@@ -148,8 +148,8 @@ def test_in_order_empty():
     b = BST()
     in_ord = b.in_order()
     in_ord_list = []
-    for ii in in_ord:
-        in_ord_list.append(ii)
+    for val in in_ord:
+        in_ord_list.append(val)
     assert in_ord_list == []
 
 
@@ -159,8 +159,8 @@ def test_in_order_solo():
     b = BST([20])
     in_ord = b.in_order()
     in_ord_list = []
-    for ii in in_ord:
-        in_ord_list.append(ii)
+    for val in in_ord:
+        in_ord_list.append(val)
     assert in_ord_list == [20]
 
 
@@ -169,8 +169,8 @@ def test_in_order_filled(traversals):
     b = traversals
     in_ord = b.in_order()
     in_ord_list = []
-    for ii in in_ord:
-        in_ord_list.append(ii)
+    for val in in_ord:
+        in_ord_list.append(val)
     assert in_ord_list == [16, 14, 4, 15, 17, 20, 25, 22]
 
 
@@ -182,8 +182,8 @@ def test_pre_order_empty():
     b = BST()
     pre_ord = b.pre_order()
     pre_ord_list = []
-    for ii in pre_ord:
-        pre_ord_list.append(ii)
+    for val in pre_ord:
+        pre_ord_list.append(val)
     assert pre_ord_list == []
 
 
@@ -193,8 +193,8 @@ def test_pre_order_solo():
     b = BST([132])
     pre_ord = b.pre_order()
     pre_ord_list = []
-    for ii in pre_ord:
-        pre_ord_list.append(ii)
+    for val in pre_ord:
+        pre_ord_list.append(val)
     assert pre_ord_list == [132]
 
 
@@ -203,8 +203,8 @@ def test_pre_order_filled(traversals):
     b = traversals
     pre_ord = b.pre_order()
     pre_ord_list = []
-    for ii in pre_ord:
-        pre_ord_list.append(ii)
+    for val in pre_ord:
+        pre_ord_list.append(val)
     assert pre_ord_list == [20, 16, 14, 4, 15, 17, 25, 22]
 
 
@@ -216,8 +216,8 @@ def test_post_order_empty():
     b = BST()
     post_ord = b.post_order()
     post_ord_list = []
-    for ii in post_ord:
-        post_ord_list.append(ii)
+    for val in post_ord:
+        post_ord_list.append(val)
     assert post_ord_list == []
 
 
@@ -227,8 +227,8 @@ def test_post_order_solo():
     b = BST([35])
     post_ord = b.post_order()
     post_ord_list = []
-    for ii in post_ord:
-        post_ord_list.append(ii)
+    for val in post_ord:
+        post_ord_list.append(val)
     assert post_ord_list == [35]
 
 
@@ -237,8 +237,8 @@ def test_post_order_filled(traversals):
     b = traversals
     post_ord = b.post_order()
     post_ord_list = []
-    for ii in post_ord:
-        post_ord_list.append(ii)
+    for val in post_ord:
+        post_ord_list.append(val)
     assert post_ord_list == [16, 14, 4, 15, 17, 25, 22, 20]
 
 
@@ -250,8 +250,8 @@ def test_breath_first_empty():
     b = BST()
     breath = b.breath_first()
     breath_first_list = []
-    for ii in breath:
-        breath_first_list.append(ii)
+    for val in breath:
+        breath_first_list.append(val)
     assert breath_first_list == []
 
 
@@ -261,8 +261,8 @@ def test_breath_first_solo():
     b = BST([25])
     breath = b.breath_first()
     breath_first_list = []
-    for ii in breath:
-        breath_first_list.append(ii)
+    for val in breath:
+        breath_first_list.append(val)
     assert breath_first_list == [25]
 
 
@@ -271,6 +271,6 @@ def test_breath_first_filled(traversals):
     b = traversals
     breath = b.breath_first()
     breath_list = []
-    for ii in breath:
-        breath_list.append(ii)
+    for val in breath:
+        breath_list.append(val)
     assert breath_list == [20, 16, 25, 14, 17, 22, 4, 15]
