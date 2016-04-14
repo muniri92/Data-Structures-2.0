@@ -32,6 +32,41 @@ def traversals():
     return b
 
 
+def test_node_one_balance_tree():
+    """Test balance function of one will not be in while loop forever."""
+    from bst import Node
+    a = Node(1)
+    assert a.balance_tree() is None
+
+
+def test_tree_one_balance_tree():
+    """Test balance function of one in insert function proerply integrated."""
+    from bst import BST
+    b = BST([20])
+    assert b.depth() == 1
+    assert b.balance() == 0
+
+
+def test_balance_tree_two_left():
+    """Test balance tree not caught in while forever and returns None."""
+    from bst import Node
+    a = Node(20)
+    a.left = Node(16)
+    assert a.depth() == 2
+    assert a.balance() == 1
+    assert a.balance_tree() is None
+
+
+def test_balance_tree_two_right():
+    """Test balance tree not caught in while forever and returns None."""
+    from bst import Node
+    a = Node(20)
+    a.right = Node(23)
+    assert a.depth() == 2
+    assert a.balance() == -1
+    assert a.balance_tree() is None
+
+
 def test_no_string():
     """Test that error is raise when anything other then an int is inserted."""
     from bst import BST

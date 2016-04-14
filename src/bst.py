@@ -67,6 +67,51 @@ class Node(object):
                 yield ii
         yield self.value
 
+    def balance_tree(self):
+        """Balance the tree to optimal structure and minimize O(n) calls."""
+        while self:
+            if self.balance() > 1:
+                a, b, c = self.parent, self, self.left
+                if a:
+                    if self.left.left:
+                        c.parent, a.left, b.left = a, c, None
+                        b.parent, c.right = c, b
+                    else:
+                        c.value, c.right.value = c.right.value, c.value
+                        c.left, c.right = c.right, None
+                        self.balance_tree()
+                else:
+                    self._rotate_right()
+            if self.balance() < -1:
+                a, b, c, = self.parent, self, self.right
+                if a:
+                    if self.right.right:
+                        c.parent, a.right, b.right = a, c, None
+                        b.parent, c.left = c, b
+                    else:
+                        c.value, c.left.value = c.left.value, c.value
+                        c.right, c.left = c.left, None
+                        self.balance_tree()
+                else:
+                    self._rotate_left()
+            cursor = self
+            self = self.parent
+        return cursor
+
+    def _rotate_right(self):
+        """Rotate self around right to rebalance."""
+        # Rotate head stuff
+        a, b, c = self.parent, self, self.left
+        c.parent, b.parent = a, c
+        b.left, c.right.parent, c.right = c.right, b, b
+
+    def _rotate_left(self):
+        """Rotate self around left to rebalance."""
+        # Rotate head stuff
+        a, b, c = self.parent, self, self.right
+        c.parent, b.parent = a, c
+        b.right, c.left.parent, c.left = c.left, b, b
+
     def _get_dot(self):
         """Recursively prepare a dot graph entry for this node."""
         if self.left is not None:
@@ -128,6 +173,8 @@ class BST(object):
                     else:
                         new_node.parent = old_cursor
                         old_cursor.right = new_node
+                    # import pdb; pdb.set_trace()
+                    self.top = old_cursor.balance_tree()
                 self.length += 1
         else:
             raise TypeError("This tree only accepts integers or floats.")
@@ -277,18 +324,18 @@ class BST(object):
 if __name__ == '__main__':
     b = BST([20])
     b.contains(20)  # Best case this is an O(n)
-    b.insert(19)
+    b.insert(23)
     b.insert(19.5)
     b.insert(19.2)
     b.insert(19.25)
-    b.insert(18)
-    b.insert(17)
-    b.insert(16)
-    b.insert(23)
-    b.insert(25)
-    b.contains(16)  # Worst case this is also an O(n)
-    b.delete(19)
-    b.insert(24)
-    b.insert(16.5)
-    b.delete(25)
+    b.insert(19)
+    b.insert(19.3)
+    b.insert(19.29)
+    b.insert(19.28)
+    # b.insert(25)
+    # b.contains(16)  # Worst case this is also an O(n)
+    # # b.delete(19)
+    # b.insert(26)
+    # b.insert(16.5)
+    # b.delete(25)
     b.write_graph()
