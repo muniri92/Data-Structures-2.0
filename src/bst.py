@@ -41,30 +41,30 @@ class Node(object):
         """Traverse a tree pre-order."""
         yield self.value
         if self.left:
-            for ii in self.left.pre_order():
-                yield ii
+            for val in self.left.pre_order():
+                yield val
         if self.right:
-            for ii in self.right.pre_order():
-                yield ii
+            for val in self.right.pre_order():
+                yield val
 
     def in_order(self):
         """Traverse a tree in-order."""
         if self.left:
-            for ii in self.left.pre_order():
-                yield ii
+            for val in self.left.pre_order():
+                yield val
         yield self.value
         if self.right:
-            for ii in self.right.pre_order():
-                yield ii
+            for val in self.right.pre_order():
+                yield val
 
     def post_order(self):
         """Traverse a tree post-order."""
         if self.left:
-            for ii in self.left.pre_order():
-                yield ii
+            for val in self.left.pre_order():
+                yield val
         if self.right:
-            for ii in self.right.pre_order():
-                yield ii
+            for val in self.right.pre_order():
+                yield val
         yield self.value
 
     def _get_dot(self):
@@ -99,8 +99,8 @@ class BST(object):
         """Initialize BST class."""
         self._reset()
         if isinstance(values, list):
-            for ii in values:
-                self.insert(ii)
+            for val in values:
+                self.insert(val)
         else:
             raise TypeError("Please package your item into a list!")
 
@@ -164,24 +164,24 @@ class BST(object):
     def pre_order(self):
         """Return a generator of a pre-order traversal."""
         if self.top:
-            for ii in self.top.pre_order():
-                yield ii
+            for val in self.top.pre_order():
+                yield val
         else:
             print('Empty Tree!')
 
     def in_order(self):
         """Return a generator of a in-order traversal."""
         if self.top:
-            for ii in self.top.in_order():
-                yield ii
+            for val in self.top.in_order():
+                yield val
         else:
             print('Empty Tree!')
 
     def post_order(self):
         """Return a generator of a post-order traversal."""
         if self.top:
-            for ii in self.top.post_order():
-                yield ii
+            for val in self.top.post_order():
+                yield val
         else:
             print('Empty Tree!')
 
