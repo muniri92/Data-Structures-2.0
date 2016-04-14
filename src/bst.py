@@ -238,24 +238,27 @@ class BST(object):
 
     def delete(self, val):
         """Remove the value of choice from the BST."""
-        if self.top:
-            cursor = self.top
-            while cursor is not None:
-                if val == cursor.value:
-                    self.length -= 1
-                    if cursor.left and cursor.right:
-                        self._two_children(cursor)
-                    elif cursor.left:
-                        self._one_child(cursor, 'left')
-                    elif cursor.right:
-                        self._one_child(cursor, 'right')
+        if self.contains(val):
+            if self.top:
+                cursor = self.top
+                while cursor is not None:
+                    if val == cursor.value:
+                        self.length -= 1
+                        if cursor.left and cursor.right:
+                            self._two_children(cursor)
+                        elif cursor.left:
+                            self._one_child(cursor, 'left')
+                        elif cursor.right:
+                            self._one_child(cursor, 'right')
+                        else:
+                            self._no_children(cursor)
+                        break
+                    if cursor.value > val:
+                        cursor = cursor.left
                     else:
-                        self._no_children(cursor)
-                    break
-                if cursor.value > val:
-                    cursor = cursor.left
-                else:
-                    cursor = cursor.right
+                        cursor = cursor.right
+        else:
+            pass
 
     def write_graph(self):
         """Write dots to a file."""
@@ -290,5 +293,5 @@ if __name__ == '__main__':
     b.delete(19)
     b.insert(24)
     b.insert(16.5)
-    b.delete(25)
+    b.delete(23)
     b.write_graph()

@@ -276,58 +276,51 @@ def test_breath_first_filled(traversals):
     assert breath_list == [20, 16, 25, 14, 17, 22, 4, 15]
 
 
-# delete tests
+# DELETE TEST
 
-def test_delete_not_there(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    outcome = traversals.delete(5)
-    assert outcome is None
-
-
-def test_delete_no_kids_there(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    outcome = traversals.delete(4)
-    assert outcome is None
-
-
-def test_delete_no_kids_removed(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    assert traversals.contains(4)
+def test_delete_no_kids(traversals):
+    """Test the deletion of a node with no children are no longer contained."""
+    assert traversals.contains(4) is True
     traversals.delete(4)
     assert traversals.contains(4) is False
 
 
-def test_delete_one_kids_there(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    outcome = traversals.delete(14)
-    assert outcome is None
+def test_delete_no_kid_size(traversals):
+    """Test deleting a node with no childern will return the correct size."""
+    assert traversals.contains(4) is True
+    pre_delete = traversals.size()
+    traversals.delete(4)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
 
 
-def test_delete_one_kid_removed(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    assert traversals.contains(14)
+def test_delete_one_kid(traversals):
+    """Test the deletion of a node with 1 children are no longer contained."""
+    assert traversals.contains(16) is True
+    traversals.delete(16)
+    assert traversals.contains(16) is False
+
+
+def test_delete_one_kid_size(traversals):
+    """Test deleting a node with 1 child will return the correct size."""
+    assert traversals.contains(16) is True
+    pre_delete = traversals.size()
+    traversals.delete(16)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
+
+
+def test_delete_two_kids(traversals):
+    """Test the deletion of a node with 2 children are no longer contained."""
+    assert traversals.contains(14) is True
     traversals.delete(14)
     assert traversals.contains(14) is False
 
 
-def test_delete_two_kids_there(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    traversals.insert(16.5)
-    outcome = traversals.delete(16)
-    assert outcome is None
-
-
-def test_delete_size_works(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    traversals.insert(16.5)
-    outcome = traversals.delete(16)
-    assert outcome is None
-
-
-def test_delete_two_kid_removed(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    assert traversals.contains(16)
-    traversals.insert(16.5)
+def test_delete_two_kid_size(traversals):
+    """Test deleting a node with 2 child will return the correct size."""
+    assert traversals.contains(14) is True
     pre_delete = traversals.size()
-    traversals.delete(16)
-    assert pre_delete == (traversals.size() + 1)
+    traversals.delete(14)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
