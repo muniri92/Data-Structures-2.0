@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Binary Search Tree Module."""
-from collections import deque
 
 
 class Node(object):
@@ -55,10 +54,9 @@ class BST(object):
 
     def insert(self, value):
         """Insert a value into the binary heap."""
-        if type(value) == float or type(value) == int:
-            if self.contains(value):
-                pass
-            else:
+        try:
+            float(value)
+            if not self.contains(value):
                 cursor = self.top
                 new_node = Node(value)
                 if self.top is None:
@@ -78,7 +76,7 @@ class BST(object):
                         new_node.parent = old_cursor
                         old_cursor.right = new_node
                 self.check_set.add(new_node.value)
-        else:
+        except ValueError:
             raise TypeError("This tree only accepts integers or floats.")
 
     def contains(self, value):
