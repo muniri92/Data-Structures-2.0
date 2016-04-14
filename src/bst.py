@@ -73,7 +73,9 @@ class Node(object):
             if self.balance() > 1:
                 a, b, c = self.parent, self, self.left
                 if a:
-                    if self.left.left:
+                    if c.left and c.right:
+                        self._rotate_right('two_kids')
+                    elif c.left:
                         c.parent, a.left, b.left = a, c, None
                         b.parent, c.right = c, b
                     else:
@@ -81,11 +83,13 @@ class Node(object):
                         c.left, c.right = c.right, None
                         self.balance_tree()
                 else:
-                    self._rotate_right()
+                    self._rotate_right("p_none")
             if self.balance() < -1:
                 a, b, c, = self.parent, self, self.right
                 if a:
-                    if self.right.right:
+                    if c.left and c.right:
+                        self._rotate_left('two_kids')
+                    elif self.right.right:
                         c.parent, a.right, b.right = a, c, None
                         b.parent, c.left = c, b
                     else:
@@ -93,24 +97,30 @@ class Node(object):
                         c.right, c.left = c.left, None
                         self.balance_tree()
                 else:
-                    self._rotate_left()
+                    self._rotate_left("p_none")
             cursor = self
             self = self.parent
         return cursor
 
-    def _rotate_right(self):
+    def _rotate_right(self, case):
         """Rotate self around right to rebalance."""
-        # Rotate head stuff
         a, b, c = self.parent, self, self.left
-        c.parent, b.parent = a, c
-        b.left, c.right.parent, c.right = c.right, b, b
+        if case == 'p_none':
+            c.parent, b.parent = a, c
+            b.left, c.right.parent, c.right = c.right, b, b
+        else:
+            c.parent, b.parent, a.left = a, c, c
+            b.left, c.right.parent, c.right = c.right, b, b
 
-    def _rotate_left(self):
+    def _rotate_left(self, case):
         """Rotate self around left to rebalance."""
-        # Rotate head stuff
         a, b, c = self.parent, self, self.right
-        c.parent, b.parent = a, c
-        b.right, c.left.parent, c.left = c.left, b, b
+        if case == 'p_none':
+            c.parent, b.parent = a, c
+            b.right, c.left.parent, c.left = c.left, b, b
+        else:
+            c.parent, b.parent, a.right = a, c, c
+            b.right, c.left.parent, c.left = c.left, b, b
 
     def _get_dot(self):
         """Recursively prepare a dot graph entry for this node."""
@@ -323,19 +333,24 @@ class BST(object):
 
 if __name__ == '__main__':
     b = BST([20])
-    b.contains(20)  # Best case this is an O(n)
     b.insert(23)
-    b.insert(19.5)
-    b.insert(19.2)
-    b.insert(19.25)
     b.insert(19)
-    b.insert(19.3)
-    b.insert(19.29)
-    b.insert(19.28)
-    # b.insert(25)
-    # b.contains(16)  # Worst case this is also an O(n)
-    # # b.delete(19)
-    # b.insert(26)
-    # b.insert(16.5)
-    # b.delete(25)
+    b.insert(18)
+    b.insert(18.5)
+    b.insert(17.5)
+    b.insert(17.7)
+    b.insert(16)
+    b.insert(15.5)
+    b.insert(15)
+    b.insert(14)
+    b.insert(13)
+    b.insert(18.2)
+    b.insert(18.3)
+    # b.insert(17.9)  # this breaks us.  Find the weirdness
+    # b = BST([17.7])
+    # b.insert(17.5)
+    # b.insert(18.2)
+    # b.insert(18.3)
+    # b.insert(18)
+    # b.insert(17.9) # mini break
     b.write_graph()
