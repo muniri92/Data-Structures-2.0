@@ -352,5 +352,5 @@ if __name__ == '__main__':
     # b.insert(18.2)
     # b.insert(18.3)
     # b.insert(18)
-    # b.insert(17.9) # mini break
+    # b.insert(17.9) # mini
     b.write_graph()
