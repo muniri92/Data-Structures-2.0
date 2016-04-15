@@ -118,10 +118,10 @@ class Node(object):
                 b.left, c.right = c.right, b
         else:
             try:
-                c.parent, b.parent, a.right = a, c, c
+                c.parent, b.parent, a.left = a, c, c
                 b.left, c.right.parent, c.right = c.right, b, b
             except AttributeError:
-                c.parent, b.parent, a.right = a, c, c
+                c.parent, b.parent, a.left = a, c, c
                 b.left, c.right = c.right, b
 
     def _rotate_left(self):
@@ -136,10 +136,10 @@ class Node(object):
                 b.right, c.left = c.left, b
         else:
             try:
-                c.parent, b.parent, a.left = a, c, c
+                c.parent, b.parent, a.right = a, c, c
                 b.right, c.left.parent, c.left = c.left, b, b
             except AttributeError:
-                c.parent, b.parent, a.left = a, c, c
+                c.parent, b.parent, a.right = a, c, c
                 b.right, c.left = c.left, b
 
     def _get_dot(self):
@@ -203,7 +203,6 @@ class BST(object):
                     else:
                         new_node.parent = old_cursor
                         old_cursor.right = new_node
-                    # import pdb; pdb.set_trace()
                     self.top = old_cursor.balance_tree()
                 self.length += 1
         else:
@@ -357,16 +356,16 @@ if __name__ == '__main__':
     b.insert(18.2)
     b.insert(18)
     b.insert(18.5)
-    # b.insert(17.5)
-    # b.insert(17.7)
-    # b.insert(16)
-    # b.insert(15.5)
-    # b.insert(15)
-    # b.insert(14)
-    # b.insert(13)
-    # b.insert(18.2)
-    # b.insert(18.3)
-    b.insert(17.9)  # this breaks us.  Find the weirdness
+    b.insert(17.5)
+    b.insert(17.7)
+    b.insert(16)
+    b.insert(15.5)
+    b.insert(15)
+    b.insert(14)
+    b.insert(13)
+    b.insert(18.2)
+    b.insert(18.3)
+    # b.insert(17.9)  # this breaks us.  Find the weirdness
     # b = BST([17.7])
     # b.insert(17.5)
     # b.insert(18.2)
