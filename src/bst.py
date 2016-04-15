@@ -71,56 +71,76 @@ class Node(object):
         """Balance the tree to optimal structure and minimize O(n) calls."""
         while self:
             if self.balance() > 1:
-                a, b, c = self.parent, self, self.left
-                if a:
-                    if c.left and c.right:
-                        self._rotate_right('two_kids')
-                    elif c.left:
-                        c.parent, a.left, b.left = a, c, None
-                        b.parent, c.right = c, b
-                    else:
-                        c.value, c.right.value = c.right.value, c.value
-                        c.left, c.right = c.right, None
-                        self.balance_tree()
-                else:
-                    self._rotate_right("p_none")
-            if self.balance() < -1:
-                a, b, c, = self.parent, self, self.right
-                if a:
-                    if c.left and c.right:
-                        self._rotate_left('two_kids')
-                    elif self.right.right:
-                        c.parent, a.right, b.right = a, c, None
-                        b.parent, c.left = c, b
-                    else:
-                        c.value, c.left.value = c.left.value, c.value
-                        c.right, c.left = c.left, None
-                        self.balance_tree()
-                else:
-                    self._rotate_left("p_none")
+                b, c = self, self.left
+                if c.balance() > 0:
+                    b._rotate_right()
+                elif c.balance() < 0:
+                    b._pull_left()
+                    b.balance_tree()
+            elif self.balance() < -1:
+                b, c = self, self.right
+                if c.balance() < 0:
+                    b._rotate_left()
+                elif c.balance() > 0:
+                    b._pull_right()
+                    b.balance_tree()
             cursor = self
             self = self.parent
         return cursor
 
-    def _rotate_right(self, case):
+    def _pull_left(self):
+        """Pull the node balance to load left side strong."""
+        c = self.left
+        if c.left is None:
+            c.value, c.right.value = c.right.value, c.value
+            c.left, c.right = c.right, None
+        else:
+            c._rotate_left()
+
+    def _pull_right(self):
+        """Pull the node balance to load left side strong."""
+        c = self.parent, self, self.right
+        if c.right is None:
+            c.value, c.left.value = c.left.value, c.value
+            c.right, c.left = c.left, None
+        else:
+            c._rotate_right()
+
+    def _rotate_right(self):
         """Rotate self around right to rebalance."""
         a, b, c = self.parent, self, self.left
-        if case == 'p_none':
-            c.parent, b.parent = a, c
-            b.left, c.right.parent, c.right = c.right, b, b
+        if a is None:
+            try:
+                c.parent, b.parent = a, c
+                b.left, c.right.parent, c.right = c.right, b, b
+            except AttributeError:
+                c.parent, b.parent = a, c
+                b.left, c.right = c.right, b
         else:
-            c.parent, b.parent, a.left = a, c, c
-            b.left, c.right.parent, c.right = c.right, b, b
+            try:
+                c.parent, b.parent, a.right = a, c, c
+                b.left, c.right.parent, c.right = c.right, b, b
+            except AttributeError:
+                c.parent, b.parent, a.right = a, c, c
+                b.left, c.right = c.right, b
 
-    def _rotate_left(self, case):
+    def _rotate_left(self):
         """Rotate self around left to rebalance."""
         a, b, c = self.parent, self, self.right
-        if case == 'p_none':
-            c.parent, b.parent = a, c
-            b.right, c.left.parent, c.left = c.left, b, b
+        if a is None:
+            try:
+                c.parent, b.parent = a, c
+                b.right, c.left.parent, c.left = c.left, b, b
+            except AttributeError:
+                c.parent, b.parent = a, c
+                b.right, c.left = c.left, b
         else:
-            c.parent, b.parent, a.right = a, c, c
-            b.right, c.left.parent, c.left = c.left, b, b
+            try:
+                c.parent, b.parent, a.left = a, c, c
+                b.right, c.left.parent, c.left = c.left, b, b
+            except AttributeError:
+                c.parent, b.parent, a.left = a, c, c
+                b.right, c.left = c.left, b
 
     def _get_dot(self):
         """Recursively prepare a dot graph entry for this node."""
@@ -332,21 +352,21 @@ class BST(object):
 
 
 if __name__ == '__main__':
-    b = BST([20])
-    b.insert(23)
-    b.insert(19)
+    b = BST([17.7])
+    b.insert(17.5)
+    b.insert(18.2)
     b.insert(18)
     b.insert(18.5)
-    b.insert(17.5)
-    b.insert(17.7)
-    b.insert(16)
-    b.insert(15.5)
-    b.insert(15)
-    b.insert(14)
-    b.insert(13)
-    b.insert(18.2)
-    b.insert(18.3)
-    # b.insert(17.9)  # this breaks us.  Find the weirdness
+    # b.insert(17.5)
+    # b.insert(17.7)
+    # b.insert(16)
+    # b.insert(15.5)
+    # b.insert(15)
+    # b.insert(14)
+    # b.insert(13)
+    # b.insert(18.2)
+    # b.insert(18.3)
+    b.insert(17.9)  # this breaks us.  Find the weirdness
     # b = BST([17.7])
     # b.insert(17.5)
     # b.insert(18.2)
