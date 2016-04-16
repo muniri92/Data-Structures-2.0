@@ -99,7 +99,7 @@ class Node(object):
 
     def _pull_right(self):
         """Pull the node balance to load left side strong."""
-        c = self.parent, self, self.right
+        c = self.right
         if c.right is None:
             c.value, c.left.value = c.left.value, c.value
             c.right, c.left = c.left, None
@@ -118,11 +118,19 @@ class Node(object):
                 b.left, c.right = c.right, b
         else:
             try:
-                c.parent, b.parent, a.left = a, c, c
-                b.left, c.right.parent, c.right = c.right, b, b
+                if a.value > b.value:
+                    c.parent, b.parent, a.left = a, c, c
+                    b.left, c.right.parent, c.right = c.right, b, b
+                else:
+                    c.parent, b.parent, a.right = a, c, c
+                    b.left, c.right.parent, c.right = c.right, b, b
             except AttributeError:
-                c.parent, b.parent, a.left = a, c, c
-                b.left, c.right = c.right, b
+                if a.value > b.value:
+                    c.parent, b.parent, a.left = a, c, c
+                    b.left, c.right = c.right, b
+                else:
+                    c.parent, b.parent, a.right = a, c, c
+                    b.left, c.right = c.right, b
 
     def _rotate_left(self):
         """Rotate self around left to rebalance."""
@@ -136,11 +144,19 @@ class Node(object):
                 b.right, c.left = c.left, b
         else:
             try:
-                c.parent, b.parent, a.right = a, c, c
-                b.right, c.left.parent, c.left = c.left, b, b
+                if a.value < b.value:
+                    c.parent, b.parent, a.right = a, c, c
+                    b.right, c.left.parent, c.left = c.left, b, b
+                else:
+                    c.parent, b.parent, a.left = a, c, c
+                    b.right, c.left.parent, c.left = c.left, b, b
             except AttributeError:
-                c.parent, b.parent, a.right = a, c, c
-                b.right, c.left = c.left, b
+                if a.value < b.value:
+                    c.parent, b.parent, a.right = a, c, c
+                    b.right, c.left = c.left, b
+                else:
+                    c.parent, b.parent, a.left = a, c, c
+                    b.right, c.left = c.left, b
 
     def _get_dot(self):
         """Recursively prepare a dot graph entry for this node."""
@@ -174,14 +190,15 @@ class BST(object):
         """Initialize BST class."""
         self._reset()
         if isinstance(values, list):
-            for ii in values:
-                self.insert(ii)
+            for value in values:
+                self.insert(value)
         else:
             raise TypeError("Please package your item into a list!")
 
     def insert(self, value):
         """Insert a value into the binary heap."""
-        if type(value) == float or type(value) == int:
+        try:
+            float(value)
             if self.contains(value):
                 pass
             else:
@@ -205,7 +222,7 @@ class BST(object):
                         old_cursor.right = new_node
                     self.top = old_cursor.balance_tree()
                 self.length += 1
-        else:
+        except (ValueError, AttributeError):
             raise TypeError("This tree only accepts integers or floats.")
 
     def contains(self, value):
@@ -301,13 +318,18 @@ class BST(object):
                 delete_node.parent.left = delete_node.right
                 delete_node.right.parent = delete_node.parent
 
-    def _two_children(self, delete_node):
+    def _two_children(self, del_node):
         """Delete a node with two children."""
-        cursor = delete_node.right
+        cursor = del_node.right
         while cursor.left is not None:
             cursor = cursor.left
-        delete_node.value = cursor.value
-        if cursor.right:
+        del_node.value = cursor.value
+        if del_node.right and del_node.left:
+            if del_node.right.depth() == 1:
+                del_node.right = del_node.right.right
+            else:
+                return del_node.value
+        elif del_node.right:
             self._one_child(cursor, 'right')
         else:
             self._no_children(cursor)
@@ -320,7 +342,15 @@ class BST(object):
                 if val == cursor.value:
                     self.length -= 1
                     if cursor.left and cursor.right:
-                        self._two_children(cursor)
+                        again = self._two_children(cursor)
+                        if again is not None:
+                            cursor = cursor.right
+                            while cursor.value != again:
+                                cursor = cursor.left
+                            try:
+                                self._one_child(cursor, 'right')
+                            except AttributeError:
+                                self._no_children(cursor)
                     elif cursor.left:
                         self._one_child(cursor, 'left')
                     elif cursor.right:
@@ -351,20 +381,20 @@ class BST(object):
 
 
 if __name__ == '__main__':
-    b = BST([17.7])
-    b.insert(17.5)
-    b.insert(18.2)
-    b.insert(18)
-    b.insert(18.5)
-    b.insert(17.5)
-    b.insert(17.7)
-    b.insert(16)
-    b.insert(15.5)
-    b.insert(15)
-    b.insert(14)
-    b.insert(13)
-    b.insert(18.2)
-    b.insert(18.3)
+    list_ = [991, 482, 206, 326, 66, 859, 193, 10, 323]
+# [991, 482, 206, 326, 66, 859, 193, 10, 465, 712, 50, 808, 861, 792, 234, 179, 764, 763, 827, 885, 386, 834, 85, 169, 907, 717, 284, 439, 453, 540, 460, 317, 919]
+    b = BST()
+    for value in list_:
+        b.insert(value)
+    # import pdb; pdb.set_trace()
+    b.insert(712)
+    b.insert(713)
+    b.insert(325)
+    # import pdb; pdb.set_trace()
+    b.delete(206)
+    b.delete(482)
+    b.delete(712)
+    # b.delete(713)
     # b.insert(17.9)  # this breaks us.  Find the weirdness
     # b = BST([17.7])
     # b.insert(17.5)

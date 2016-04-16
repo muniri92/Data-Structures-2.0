@@ -1,6 +1,31 @@
 # -*- coding: utf-8 -*-
 """Test Binary Search Tree Module."""
 import pytest
+import random
+
+
+RANDOM_LIST = [random.sample(range(1000), random.randrange(2, 100)) for i in range(500)]
+
+EDGE_CASES = [
+    [],
+    [20],
+    [9, 20],
+    [20, 9],
+    [0, 1, 2],
+    [2, 1, 0],
+    [2, 0, 1],
+    [0, 2, 1],
+    [1, 2, 0],
+    [1, 0, 2]
+]
+
+
+@pytest.fixture(scope='function', params=EDGE_CASES + RANDOM_LIST)
+def trees(request):
+    """Test edge cases for balancing."""
+    from bst import BST
+    b = BST(request.param)
+    return b
 
 
 @pytest.fixture(scope='function')
@@ -32,39 +57,9 @@ def traversals():
     return b
 
 
-def test_node_one_balance_tree():
-    """Test balance function of one will not be in while loop forever."""
-    from bst import Node
-    a = Node(1)
-    assert a.balance_tree() is None
-
-
-def test_tree_one_balance_tree():
-    """Test balance function of one in insert function proerply integrated."""
-    from bst import BST
-    b = BST([20])
-    assert b.depth() == 1
-    assert b.balance() == 0
-
-
-def test_balance_tree_two_left():
-    """Test balance tree not caught in while forever and returns None."""
-    from bst import Node
-    a = Node(20)
-    a.left = Node(16)
-    assert a.depth() == 2
-    assert a.balance() == 1
-    assert a.balance_tree() is None
-
-
-def test_balance_tree_two_right():
-    """Test balance tree not caught in while forever and returns None."""
-    from bst import Node
-    a = Node(20)
-    a.right = Node(23)
-    assert a.depth() == 2
-    assert a.balance() == -1
-    assert a.balance_tree() is None
+def test_tree_one_balance_tree(trees):
+    """Test tree balance is properly operating over many insertions."""
+    assert -2 < trees.balance() < 2
 
 
 def test_no_string():
@@ -75,29 +70,34 @@ def test_no_string():
         b.insert("value")
 
 
-def test_insert_top(big_left):
+def test_insert(trees):
     """Test that insert works."""
-    assert big_left.top.value == 20
+    breath_ord = trees.breath_first()
+    ord_list = []
+    for val in breath_ord:
+        ord_list.append(val)
+    try:
+        assert trees.top.value == ord_list[0]
+        assert trees.size() == len(ord_list)
+    except AttributeError:
+        pass
 
 
-def test_insert_left(big_left):
-    """Test that insert smaller value goes left."""
-    assert big_left.top.left.value == 16
-
-
-def test_insert_right(big_left):
-    """Test that insert right works correctly."""
-    assert big_left.top.left.right.value == 17
-
-
-def test_contains(big_left):
+def test_contains(trees):
     """Test contains function."""
-    assert big_left.contains(20) is True
+    breath_ord = trees.breath_first()
+    ord_list = []
+    for val in breath_ord:
+        ord_list.append(val)
+    try:
+        assert trees.contains(random.choice(ord_list)) is True
+    except IndexError:
+        pass
 
 
-def test_not_contained(big_left):
+def test_not_contained(trees):
     """Test contains returns False when item not in list."""
-    assert big_left.contains(89) is False
+    assert trees.contains(-89) is False
 
 
 def test_size_empty():
@@ -115,9 +115,16 @@ def test_size_one():
     assert d.size() == 1
 
 
-def test_size_many(big_left):
+def test_size_many(trees):
     """Test many and similar insert size."""
-    assert big_left.size() == 5
+    breath_ord = trees.breath_first()
+    ord_list = []
+    for val in breath_ord:
+        ord_list.append(val)
+    try:
+        assert trees.size() == len(ord_list)
+    except IndexError:
+        pass
 
 
 def test_depth_none():
@@ -148,18 +155,20 @@ def test_balance_one():
     assert a.balance() == 0
 
 
-def test_balance_left(big_left):
+def test_balance_left():
     """Test that a left side is larger and returns a positive int."""
-    assert big_left.balance() > 0
+    from bst import Node
+    a = Node(20)
+    a.left = Node(18)
+    assert a.balance() == 1
 
 
 def test_balance_right():
     """Test that a right side is larger and returns a negative int."""
-    from bst import BST
-    b = BST([20])
-    b.insert(23)
-    b.insert(22)
-    assert b.balance() < 0
+    from bst import Node
+    a = Node(20)
+    a.right = Node(23)
+    assert a.balance() == -1
 
 
 def test_depth_many():
