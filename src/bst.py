@@ -335,7 +335,6 @@ class BST(object):
 
     def _two_children(self, del_node):
         """Delete a node with two children."""
-        # import pdb; pdb.set_trace()
         cursor = del_node.right
         while cursor.left is not None:
             cursor = cursor.left
@@ -359,15 +358,6 @@ class BST(object):
                         self._two_children(cursor)
                         if cursor.parent is None:
                             cursor.balance_tree()
-                        # self.delete(val)
-                        # if again is not None:
-                            # cursor = cursor.right
-                            # while cursor.value != again:
-                            #     cursor = cursor.left
-                            # try:
-                            #     self._one_child(cursor, 'right')
-                            # except AttributeError:
-                            #     self._no_children(cursor)
                     elif cursor.left:
                         self._one_child(cursor, 'left')
                     elif cursor.right:
@@ -401,29 +391,8 @@ class BST(object):
 
 if __name__ == '__main__':
     list_ = [991, 482, 206, 326, 66, 859, 193, 10, 323]
-# [991, 482, 206, 326, 66, 859, 193, 10, 465, 712, 50, 808, 861, 792, 234, 179, 764, 763, 827, 885, 386, 834, 85, 169, 907, 717, 284, 439, 453, 540, 460, 317, 919]
     b = BST()
-    b.insert(4)
-    # b.delete(4)
-    # for value in list_:
-    #     b.insert(value)
-    b.insert(6)
-    b.insert(7)
-    b.insert(5)
-    b.insert(3)
-    b.insert(8)
-    # import pdb; pdb.set_trace()
-    b.delete(6)
-    # b.delete(10)
-    # b.delete(325)
-    # b.delete(326)
-    # b.delete(193)
-    # b.delete(712)
-    # b.delete(482)
-    # b.delete(991)
-    # b.delete(859)
-    # # # b.insert(850)
-    # # # import pdb; pdb.set_trace()
-    # b.delete(66)
+    for value in list_:
+        b.insert(value)
     b.delete(713)
     b.write_graph()
