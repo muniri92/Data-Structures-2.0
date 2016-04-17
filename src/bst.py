@@ -77,6 +77,8 @@ class Node(object):
                 elif c.balance() < 0:
                     b._pull_left()
                     b.balance_tree()
+                else:
+                    b._rotate_right()
             elif self.balance() < -1:
                 b, c = self, self.right
                 if c.balance() < 0:
@@ -84,6 +86,8 @@ class Node(object):
                 elif c.balance() > 0:
                     b._pull_right()
                     b.balance_tree()
+                else:
+                    b._rotate_left()
             cursor = self
             self = self.parent
         return cursor
@@ -296,40 +300,50 @@ class BST(object):
 
     def _no_children(self, delete_node):
         """Delete the desired node with no children and return None."""
-        if delete_node.value > delete_node.parent.value:
-            delete_node.parent.right = None
+        if delete_node.parent is not None:
+            if delete_node.value > delete_node.parent.value:
+                delete_node.parent.right = None
+            else:
+                delete_node.parent.left = None
         else:
-            delete_node.parent.left = None
+            self.top = delete_node = None
 
     def _one_child(self, delete_node, child_direction):
         """Delete a node with one child and return None."""
-        if child_direction == 'left':
-            if delete_node.value < delete_node.parent.value:
-                delete_node.parent.left = delete_node.left
-                delete_node.left.parent = delete_node.parent
+        if delete_node.parent:
+            if child_direction == 'left':
+                if delete_node.value < delete_node.parent.value:
+                    delete_node.parent.left = delete_node.left
+                    delete_node.left.parent = delete_node.parent
+                else:
+                    delete_node.parent.right = delete_node.left
+                    delete_node.left.parent = delete_node.parent
             else:
-                delete_node.parent.right = delete_node.left
-                delete_node.left.parent = delete_node.parent
-        if child_direction == 'right':
-            if delete_node.value > delete_node.parent.value:
-                delete_node.parent.right = delete_node.right
-                delete_node.right.parent = delete_node.parent
+                if delete_node.value > delete_node.parent.value:
+                    delete_node.parent.right = delete_node.right
+                    delete_node.right.parent = delete_node.parent
+                else:
+                    delete_node.parent.left = delete_node.right
+                    delete_node.right.parent = delete_node.parent
+        else:
+            if child_direction == 'left':
+                    delete_node.left.parent = None
+                    self.top = delete_node.left
             else:
-                delete_node.parent.left = delete_node.right
-                delete_node.right.parent = delete_node.parent
+                    delete_node.right.parent = None
+                    self.top = delete_node.right
 
     def _two_children(self, del_node):
         """Delete a node with two children."""
+        # import pdb; pdb.set_trace()
         cursor = del_node.right
         while cursor.left is not None:
             cursor = cursor.left
-        del_node.value = cursor.value
-        if del_node.right and del_node.left:
-            if del_node.right.depth() == 1:
-                del_node.right = del_node.right.right
-            else:
-                return del_node.value
-        elif del_node.right:
+        del_node.value, cursor.value = cursor.value, cursor.value + del_node.value
+        cursor = del_node.right
+        while cursor.left is not None:
+            cursor = cursor.left
+        if cursor.right:
             self._one_child(cursor, 'right')
         else:
             self._no_children(cursor)
@@ -342,21 +356,26 @@ class BST(object):
                 if val == cursor.value:
                     self.length -= 1
                     if cursor.left and cursor.right:
-                        again = self._two_children(cursor)
-                        if again is not None:
-                            cursor = cursor.right
-                            while cursor.value != again:
-                                cursor = cursor.left
-                            try:
-                                self._one_child(cursor, 'right')
-                            except AttributeError:
-                                self._no_children(cursor)
+                        self._two_children(cursor)
+                        if cursor.parent is None:
+                            cursor.balance_tree()
+                        # self.delete(val)
+                        # if again is not None:
+                            # cursor = cursor.right
+                            # while cursor.value != again:
+                            #     cursor = cursor.left
+                            # try:
+                            #     self._one_child(cursor, 'right')
+                            # except AttributeError:
+                            #     self._no_children(cursor)
                     elif cursor.left:
                         self._one_child(cursor, 'left')
                     elif cursor.right:
                         self._one_child(cursor, 'right')
                     else:
                         self._no_children(cursor)
+                    if cursor.parent is not None:
+                        self.top = cursor.parent.balance_tree()
                     break
                 if cursor.value > val:
                     cursor = cursor.left
@@ -384,22 +403,27 @@ if __name__ == '__main__':
     list_ = [991, 482, 206, 326, 66, 859, 193, 10, 323]
 # [991, 482, 206, 326, 66, 859, 193, 10, 465, 712, 50, 808, 861, 792, 234, 179, 764, 763, 827, 885, 386, 834, 85, 169, 907, 717, 284, 439, 453, 540, 460, 317, 919]
     b = BST()
-    for value in list_:
-        b.insert(value)
+    b.insert(4)
+    # b.delete(4)
+    # for value in list_:
+    #     b.insert(value)
+    b.insert(6)
+    b.insert(7)
+    b.insert(5)
+    b.insert(3)
+    b.insert(8)
     # import pdb; pdb.set_trace()
-    b.insert(712)
-    b.insert(713)
-    b.insert(325)
-    # import pdb; pdb.set_trace()
-    b.delete(206)
-    b.delete(482)
-    b.delete(712)
-    # b.delete(713)
-    # b.insert(17.9)  # this breaks us.  Find the weirdness
-    # b = BST([17.7])
-    # b.insert(17.5)
-    # b.insert(18.2)
-    # b.insert(18.3)
-    # b.insert(18)
-    # b.insert(17.9) # mini
+    b.delete(6)
+    # b.delete(10)
+    # b.delete(325)
+    # b.delete(326)
+    # b.delete(193)
+    # b.delete(712)
+    # b.delete(482)
+    # b.delete(991)
+    # b.delete(859)
+    # # # b.insert(850)
+    # # # import pdb; pdb.set_trace()
+    # b.delete(66)
+    b.delete(713)
     b.write_graph()
