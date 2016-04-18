@@ -1,5 +1,5 @@
 # -*-coding:utf-8 -*-
-"""Hash table algorythim implementation."""
+"""Hash Table Algorithim Implementation."""
 
 
 class HashTable(object):
@@ -16,11 +16,8 @@ class HashTable(object):
     def set(self, key, value):
         """Store a given value of a given key into hashtable."""
         if type(key) == str:
-            hash_num = 0
-            for letter in key:
-                hash_num += ord(letter)
-            index_spot = hash_num % len(self.table)
-            hit = self._to_search(key, value, index_spot)
+            index_spot = self._hash(key)
+            hit = self._to_search(key, index_spot)
             if hit is None:
                 self.table[index_spot] = [(key, value)]
             elif hit is False:
@@ -29,6 +26,13 @@ class HashTable(object):
                 self.table[index_spot][hit[0]] = (key, value)
         else:
             raise TypeError("Key must be a string.")
+
+    def _hash(self, key):
+        """Hash the key provided."""
+        hash_num = 0
+        for letter in key:
+            hash_num += ord(letter)
+        return hash_num % len(self.table)
 
     def _to_search(self, key, index_spot):
         """Return a key if found, else return None."""
@@ -39,3 +43,19 @@ class HashTable(object):
             return False
         else:
             return None
+
+    def get(self, key):
+        """Return the value stored with the given key."""
+        index_spot = self._hash(key)
+        if type(index_spot) == tuple:
+            value = self._to_search(key, index_spot)[1]
+            return value
+        else:
+            raise KeyError("Key is not in dictionary!")
+
+if __name__ == '__main__':
+    h = HashTable(1)
+    h.set("keyone", 1)
+    h.set("keytwo", 3)
+    h.set("keytwo", 7)
+    print(h.table)
