@@ -1,6 +1,32 @@
 # -*- coding: utf-8 -*-
 """Test Binary Search Tree Module."""
 import pytest
+import random
+import math
+
+
+RANDOM_LIST = [random.sample(range(1000), random.randrange(2, 100)) for i in range(500)]
+
+EDGE_CASES = [
+    [],
+    [20],
+    [9, 20],
+    [20, 9],
+    [0, 1, 2],
+    [2, 1, 0],
+    [2, 0, 1],
+    [0, 2, 1],
+    [1, 2, 0],
+    [1, 0, 2]
+]
+
+
+@pytest.fixture(scope='function', params=EDGE_CASES + RANDOM_LIST)
+def trees(request):
+    """Test edge cases for balancing. Returns random lists of varies sizes."""
+    from bst import BST
+    b = BST(request.param)
+    return b
 
 
 @pytest.fixture(scope='function')
@@ -18,7 +44,7 @@ def big_left():
 
 @pytest.fixture(scope='function')
 def traversals():
-    """Fixture for testing."""
+    """Fixture for testing the traversals."""
     from bst import BST
     b = BST([20])
     b.insert(16)
@@ -32,29 +58,64 @@ def traversals():
     return b
 
 
-def test_insert_top(big_left):
-    """Test that insert works."""
-    assert big_left.top.value == 20
+def test_level_given_length(trees):
+    """
+    Test that determines the depth of a tree given the number of nodes.
+
+    We know: depth = ∑ 2^(i), from i=0 to n=(number of nodes)
+    Equation: k = log(n + 1) , where k=depth and n=(number of nodes)
+
+    It's important to remember that this equation is for perfectly balanced
+    trees, so we are confirming that the level falls in between -2 and +2
+    from the aprroximated level.
+    """
+    level = trees.depth()
+    length = trees.size()
+    equation = math.log(((int(length) + 1)), 2)
+    assert (level - 2) <= math.ceil(equation) <= (level + 2)
 
 
-def test_insert_left(big_left):
-    """Test that insert smaller value goes left."""
-    assert big_left.top.left.value == 16
+def test_tree_one_balance_tree(trees):
+    """Test tree balance is properly operating over many insertions."""
+    assert -2 < trees.balance() < 2
 
 
-def test_insert_right(big_left):
-    """Test that insert right works correctly."""
-    assert big_left.top.left.right.value == 17
+def test_no_string():
+    """Test that error is raise when anything other then an int is inserted."""
+    from bst import BST
+    b = BST([20])
+    with pytest.raises(TypeError):
+        b.insert("value")
 
 
-def test_contains(big_left):
-    """Test contains function."""
-    assert big_left.contains(20) is True
+def test_insert(trees):
+    """Test the insert function."""
+    breath_ord = trees.breath_first()
+    ord_list = []
+    for val in breath_ord:
+        ord_list.append(val)
+    try:
+        assert trees.top.value == ord_list[0]
+        assert trees.size() == len(ord_list)
+    except AttributeError:
+        pass
 
 
-def test_not_contained(big_left):
+def test_contains(trees):
+    """Test the contains function."""
+    breath_ord = trees.breath_first()
+    ord_list = []
+    for val in breath_ord:
+        ord_list.append(val)
+    try:
+        assert trees.contains(random.choice(ord_list)) is True
+    except IndexError:
+        pass
+
+
+def test_not_contained(trees):
     """Test contains returns False when item not in list."""
-    assert big_left.contains(89) is False
+    assert trees.contains(-89) is False
 
 
 def test_size_empty():
@@ -72,9 +133,16 @@ def test_size_one():
     assert d.size() == 1
 
 
-def test_size_many(big_left):
+def test_size_many(trees):
     """Test many and similar insert size."""
-    assert big_left.size() == 5
+    breath_ord = trees.breath_first()
+    ord_list = []
+    for val in breath_ord:
+        ord_list.append(val)
+    try:
+        assert trees.size() == len(ord_list)
+    except IndexError:
+        pass
 
 
 def test_depth_none():
@@ -105,18 +173,20 @@ def test_balance_one():
     assert a.balance() == 0
 
 
-def test_balance_left(big_left):
+def test_balance_left():
     """Test that a left side is larger and returns a positive int."""
-    assert big_left.balance() > 0
+    from bst import Node
+    a = Node(20)
+    a.left = Node(18)
+    assert a.balance() == 1
 
 
 def test_balance_right():
     """Test that a right side is larger and returns a negative int."""
-    from bst import BST
-    b = BST([20])
-    b.insert(23)
-    b.insert(22)
-    assert b.balance() < 0
+    from bst import Node
+    a = Node(20)
+    a.right = Node(23)
+    assert a.balance() == -1
 
 
 def test_depth_many():
@@ -146,7 +216,7 @@ def test_in_order_empty():
 
 
 def test_in_order_solo():
-    """Test an empty Node returns empty list."""
+    """Test running in-order on a tree with one Node."""
     from bst import BST
     b = BST([20])
     in_ord = b.in_order()
@@ -157,7 +227,7 @@ def test_in_order_solo():
 
 
 def test_in_order_filled(traversals):
-    """Test an empty Node returns empty list."""
+    """Test that in-order returns the correct list."""
     b = traversals
     in_ord = b.in_order()
     in_ord_list = []
@@ -180,7 +250,7 @@ def test_pre_order_empty():
 
 
 def test_pre_order_solo():
-    """Test an empty Node returns empty list."""
+    """Test running pre-order on a tree with one Node."""
     from bst import BST
     b = BST([132])
     pre_ord = b.pre_order()
@@ -191,7 +261,7 @@ def test_pre_order_solo():
 
 
 def test_pre_order_filled(traversals):
-    """Test an empty Node returns empty list."""
+    """Test that pre-order returns the correct list."""
     b = traversals
     pre_ord = b.pre_order()
     pre_ord_list = []
@@ -214,7 +284,7 @@ def test_post_order_empty():
 
 
 def test_post_order_solo():
-    """Test an empty Node returns empty list."""
+    """Test running post-order on a tree with one Node."""
     from bst import BST
     b = BST([35])
     post_ord = b.post_order()
@@ -225,7 +295,7 @@ def test_post_order_solo():
 
 
 def test_post_order_filled(traversals):
-    """Test an empty Node returns empty list."""
+    """Test that post-order returns the correct list."""
     b = traversals
     post_ord = b.post_order()
     post_ord_list = []
@@ -248,7 +318,7 @@ def test_breath_first_empty():
 
 
 def test_breath_first_solo():
-    """Test an empty Node returns empty list."""
+    """Test running breath on a tree with one Node."""
     from bst import BST
     b = BST([25])
     breath = b.breath_first()
@@ -259,10 +329,60 @@ def test_breath_first_solo():
 
 
 def test_breath_first_filled(traversals):
-    """Test an empty Node returns empty list."""
+    """Test that breath returns the correct list."""
     b = traversals
     breath = b.breath_first()
     breath_list = []
     for ii in breath:
         breath_list.append(ii)
     assert breath_list == [20, 16, 25, 14, 17, 22, 4, 15]
+
+
+# DELETE TEST
+
+def test_delete_no_kids(traversals):
+    """Test the deletion of a node with no children are no longer contained."""
+    assert traversals.contains(4) is True
+    traversals.delete(4)
+    assert traversals.contains(4) is False
+
+
+def test_delete_no_kid_size(traversals):
+    """Test deleting a node with no childern will return the correct size."""
+    assert traversals.contains(4) is True
+    pre_delete = traversals.size()
+    traversals.delete(4)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
+
+
+def test_delete_one_kid(traversals):
+    """Test the deletion of a node with 1 children are no longer contained."""
+    assert traversals.contains(16) is True
+    traversals.delete(16)
+    assert traversals.contains(16) is False
+
+
+def test_delete_one_kid_size(traversals):
+    """Test deleting a node with 1 child will return the correct size."""
+    assert traversals.contains(16) is True
+    pre_delete = traversals.size()
+    traversals.delete(16)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
+
+
+def test_delete_two_kids(traversals):
+    """Test the deletion of a node with 2 children are no longer contained."""
+    assert traversals.contains(14) is True
+    traversals.delete(14)
+    assert traversals.contains(14) is False
+
+
+def test_delete_two_kid_size(traversals):
+    """Test deleting a node with 2 child will return the correct size."""
+    assert traversals.contains(14) is True
+    pre_delete = traversals.size()
+    traversals.delete(14)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
