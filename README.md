@@ -23,3 +23,6 @@ A feature of our binary tree is to find a value is an O(1).
 
 # Delete Method
     - Remove value from the tree if present, if not present this method is a no-op. Return None in all cases
+
+# Balance Method
+    -  Balance the tree upon the insertion or the deletion of a node. This allows for the Binary Search Tree to be as optimal as possible. 

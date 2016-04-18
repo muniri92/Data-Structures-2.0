@@ -2,6 +2,7 @@
 """Test Binary Search Tree Module."""
 import pytest
 import random
+import math
 
 
 RANDOM_LIST = [random.sample(range(1000), random.randrange(2, 100)) for i in range(500)]
@@ -22,7 +23,7 @@ EDGE_CASES = [
 
 @pytest.fixture(scope='function', params=EDGE_CASES + RANDOM_LIST)
 def trees(request):
-    """Test edge cases for balancing."""
+    """Test edge cases for balancing. Returns random lists of varies sizes."""
     from bst import BST
     b = BST(request.param)
     return b
@@ -43,7 +44,7 @@ def big_left():
 
 @pytest.fixture(scope='function')
 def traversals():
-    """Fixture for testing."""
+    """Fixture for testing the traversals."""
     from bst import BST
     b = BST([20])
     b.insert(16)
@@ -55,6 +56,23 @@ def traversals():
     b.insert(15)
     b.insert(4)
     return b
+
+
+def test_level_given_length(trees):
+    """
+    Test that determines the depth of a tree given the number of nodes.
+
+    We know: depth = ∑ 2^(i), from i=0 to n=(number of nodes)
+    Equation: k = log(n + 1) , where k=depth and n=(number of nodes)
+
+    It's important to remember that this equation is for perfectly balanced
+    trees, so we are confirming that the level falls in between -2 and +2
+    from the aprroximated level.
+    """
+    level = trees.depth()
+    length = trees.size()
+    equation = math.log(((int(length) + 1)), 2)
+    assert (level - 2) <= math.ceil(equation) <= (level + 2)
 
 
 def test_tree_one_balance_tree(trees):
@@ -71,7 +89,7 @@ def test_no_string():
 
 
 def test_insert(trees):
-    """Test that insert works."""
+    """Test the insert function."""
     breath_ord = trees.breath_first()
     ord_list = []
     for val in breath_ord:
@@ -84,7 +102,7 @@ def test_insert(trees):
 
 
 def test_contains(trees):
-    """Test contains function."""
+    """Test the contains function."""
     breath_ord = trees.breath_first()
     ord_list = []
     for val in breath_ord:
@@ -198,7 +216,7 @@ def test_in_order_empty():
 
 
 def test_in_order_solo():
-    """Test an empty Node returns empty list."""
+    """Test running in-order on a tree with one Node."""
     from bst import BST
     b = BST([20])
     in_ord = b.in_order()
@@ -209,7 +227,7 @@ def test_in_order_solo():
 
 
 def test_in_order_filled(traversals):
-    """Test an empty Node returns empty list."""
+    """Test that in-order returns the correct list."""
     b = traversals
     in_ord = b.in_order()
     in_ord_list = []
@@ -232,7 +250,7 @@ def test_pre_order_empty():
 
 
 def test_pre_order_solo():
-    """Test an empty Node returns empty list."""
+    """Test running pre-order on a tree with one Node."""
     from bst import BST
     b = BST([132])
     pre_ord = b.pre_order()
@@ -243,7 +261,7 @@ def test_pre_order_solo():
 
 
 def test_pre_order_filled(traversals):
-    """Test an empty Node returns empty list."""
+    """Test that pre-order returns the correct list."""
     b = traversals
     pre_ord = b.pre_order()
     pre_ord_list = []
@@ -266,7 +284,7 @@ def test_post_order_empty():
 
 
 def test_post_order_solo():
-    """Test an empty Node returns empty list."""
+    """Test running post-order on a tree with one Node."""
     from bst import BST
     b = BST([35])
     post_ord = b.post_order()
@@ -277,7 +295,7 @@ def test_post_order_solo():
 
 
 def test_post_order_filled(traversals):
-    """Test an empty Node returns empty list."""
+    """Test that post-order returns the correct list."""
     b = traversals
     post_ord = b.post_order()
     post_ord_list = []
@@ -300,7 +318,7 @@ def test_breath_first_empty():
 
 
 def test_breath_first_solo():
-    """Test an empty Node returns empty list."""
+    """Test running breath on a tree with one Node."""
     from bst import BST
     b = BST([25])
     breath = b.breath_first()
@@ -311,7 +329,7 @@ def test_breath_first_solo():
 
 
 def test_breath_first_filled(traversals):
-    """Test an empty Node returns empty list."""
+    """Test that breath returns the correct list."""
     b = traversals
     breath = b.breath_first()
     breath_list = []
@@ -320,58 +338,51 @@ def test_breath_first_filled(traversals):
     assert breath_list == [20, 16, 25, 14, 17, 22, 4, 15]
 
 
-# delete tests
+# DELETE TEST
 
-def test_delete_not_there(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    outcome = traversals.delete(5)
-    assert outcome is None
-
-
-def test_delete_no_kids_there(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    outcome = traversals.delete(4)
-    assert outcome is None
-
-
-def test_delete_no_kids_removed(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    assert traversals.contains(4)
+def test_delete_no_kids(traversals):
+    """Test the deletion of a node with no children are no longer contained."""
+    assert traversals.contains(4) is True
     traversals.delete(4)
     assert traversals.contains(4) is False
 
 
-def test_delete_one_kids_there(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    outcome = traversals.delete(14)
-    assert outcome is None
+def test_delete_no_kid_size(traversals):
+    """Test deleting a node with no childern will return the correct size."""
+    assert traversals.contains(4) is True
+    pre_delete = traversals.size()
+    traversals.delete(4)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
 
 
-def test_delete_one_kid_removed(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    assert traversals.contains(14)
+def test_delete_one_kid(traversals):
+    """Test the deletion of a node with 1 children are no longer contained."""
+    assert traversals.contains(16) is True
+    traversals.delete(16)
+    assert traversals.contains(16) is False
+
+
+def test_delete_one_kid_size(traversals):
+    """Test deleting a node with 1 child will return the correct size."""
+    assert traversals.contains(16) is True
+    pre_delete = traversals.size()
+    traversals.delete(16)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
+
+
+def test_delete_two_kids(traversals):
+    """Test the deletion of a node with 2 children are no longer contained."""
+    assert traversals.contains(14) is True
     traversals.delete(14)
     assert traversals.contains(14) is False
 
 
-def test_delete_two_kids_there(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    traversals.insert(16.5)
-    outcome = traversals.delete(16)
-    assert outcome is None
-
-
-def test_delete_size_works(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    traversals.insert(16.5)
-    outcome = traversals.delete(16)
-    assert outcome is None
-
-
-def test_delete_two_kid_removed(traversals):
-    """Test the deletion of a node that not exist returns None."""
-    assert traversals.contains(16)
-    traversals.insert(16.5)
+def test_delete_two_kid_size(traversals):
+    """Test deleting a node with 2 child will return the correct size."""
+    assert traversals.contains(14) is True
     pre_delete = traversals.size()
-    traversals.delete(16)
-    assert pre_delete == (traversals.size() + 1)
+    traversals.delete(14)
+    post_delete = traversals.size()
+    assert post_delete == (pre_delete - 1)
