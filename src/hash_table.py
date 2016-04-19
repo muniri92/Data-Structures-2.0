@@ -7,11 +7,10 @@ class HashTable(object):
 
     def __init__(self, table_size):
         """Inititalize hash table instance."""
-        try:
-            int(table_size)
+        if type(table_size) == int:
             self.table = [None] * table_size
-        except TypeError:
-            print("You must enter an integer value.")
+        else:
+            raise TypeError("You must enter an integer value.")
 
     def set(self, key, value):
         """Store a given value of a given key into hashtable."""
@@ -47,9 +46,9 @@ class HashTable(object):
     def get(self, key):
         """Return the value stored with the given key."""
         index_spot = self._hash(key)
-        if type(index_spot) == tuple:
-            value = self._to_search(key, index_spot)[1]
-            return value
+        value = self._to_search(key, index_spot)
+        if type(value) == tuple:
+            return value[1]
         else:
             raise KeyError("Key is not in dictionary!")
 
