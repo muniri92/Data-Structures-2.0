@@ -29,16 +29,16 @@ def test_set():
     assert h.table == [[("keyone", 1)]]
 
 
-# def test_set_mass(words):
-#     """Test that set will work over multiples."""
-#     instance = words[0].table
-#     key_size = 0
-#     for list_ in instance:
-#         try:
-#             key_size += len(list_)
-#         except AttributeError:
-#             pass
-#     assert key_size == words[1]
+def test_set_mass(words):
+    """Test that set will work over multiples."""
+    instance = words[0].table
+    key_size = 0
+    for list_ in instance:
+        try:
+            key_size += len(list_)
+        except AttributeError:
+            pass
+    assert key_size == words[1]
 
 
 def test_table_creation_string():
