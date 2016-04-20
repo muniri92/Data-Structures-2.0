@@ -10,15 +10,15 @@ class InsertionSort(object):
         """Insertion Sort Function."""
         try:
             for idx in range(1, len(lst)):
-                val = lst[idx]
+                val = int(lst[idx])
                 cur_spot = idx
                 while val < lst[cur_spot - 1] and cur_spot > 0:
                     lst[cur_spot] = lst[cur_spot - 1]
                     cur_spot = cur_spot - 1
                 lst[cur_spot] = val
             return lst
-        except TypeError:
-            raise TypeError
+        except ValueError:
+            raise TypeError("The list may only contain integers.")
 
 
 if __name__ == '__main__':
