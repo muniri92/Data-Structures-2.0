@@ -11,7 +11,6 @@ def test_random_lst():
     """A."""
     from insertion_sort import InsertionSort
     i = InsertionSort()
-
     for lst in RANDOM_LIST:
         lst_sort = sorted(lst)
         assert i.insertion(lst) == lst_sort
@@ -24,27 +23,33 @@ def test_insertion_empty():
     assert i.insertion([]) == []
 
 
-def test_insertion_solo():
-    """Test the you can insert a single item list."""
+def test_error_string():
+    """Test to see that error is raised when string is passed."""
     from insertion_sort import InsertionSort
     i = InsertionSort()
-    assert i.insertion([20]) == [20]
+    with pytest.raises(TypeError):
+        i.insertion([10, 20, "hey", 20])
 
 
-# I WANT 1,000,000 TESTS!
-# @pytest.fixture(scope='function', params=RANDOM_LIST)
-# def unord_lst(request):
-#     """Test random list and confirm that we get them back sorted."""
-#     lst = []
-#     i = lst[(request.param)]
-#     # i.insertion(request.param)
-#     # import pdb; pdb.set_trace()
-#     return i
+def test_error_list():
+    """Test to see that error is raised when list is passed."""
+    from insertion_sort import InsertionSort
+    i = InsertionSort()
+    with pytest.raises(TypeError):
+        i.insertion([10, 20, [], 20])
 
 
-# def test_rando(unord_lst):
-#     from insertion_sort import InsertionSort
-#     i = InsertionSort()
-#     lst = unord_lst
-#     print(lst)
-#     i.insertion(unord_lst)
+def test_error_tuple():
+    """Test to see that error is raised when tuple is passed."""
+    from insertion_sort import InsertionSort
+    i = InsertionSort()
+    with pytest.raises(TypeError):
+        i.insertion([10, 20, ("hey", "fail"), 20])
+
+
+def test_error_dict():
+    """Test to see that error is raised when dict is passed."""
+    from insertion_sort import InsertionSort
+    i = InsertionSort()
+    with pytest.raises(TypeError):
+        i.insertion([10, 20, {"hey": "fail"}, 20])
