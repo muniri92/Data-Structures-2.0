@@ -8,7 +8,6 @@ import math
 RANDOM_LIST = [random.sample(range(1000), random.randrange(2, 100)) for i in range(500)]
 
 EDGE_CASES = [
-    [],
     [20],
     [9, 20],
     [20, 9],
@@ -26,7 +25,7 @@ def trees(request):
     """Test edge cases for balancing. Returns random lists of varies sizes."""
     from bst import BST
     b = BST(request.param)
-    return b
+    return (b, request.param[0])
 
 
 @pytest.fixture(scope='function')
@@ -69,15 +68,21 @@ def test_level_given_length(trees):
     trees, so we are confirming that the level falls in between -2 and +2
     from the aprroximated level.
     """
-    level = trees.depth()
-    length = trees.size()
+    level = trees[0].depth()
+    length = trees[0].size()
     equation = math.log(((int(length) + 1)), 2)
     assert (level - 2) <= math.ceil(equation) <= (level + 2)
 
 
 def test_tree_one_balance_tree(trees):
     """Test tree balance is properly operating over many insertions."""
-    assert -2 < trees.balance() < 2
+    assert -2 < trees[0].balance() < 2
+
+
+def test_tree_one_balance_tree_deletion(trees):
+    """Test tree balance is properly operating over many insertions."""
+    trees[0].delete(trees[1])
+    assert -2 < trees[0].balance() < 2
 
 
 def test_no_string():
@@ -90,32 +95,32 @@ def test_no_string():
 
 def test_insert(trees):
     """Test the insert function."""
-    breath_ord = trees.breath_first()
+    breath_ord = trees[0].breath_first()
     ord_list = []
     for val in breath_ord:
         ord_list.append(val)
     try:
-        assert trees.top.value == ord_list[0]
-        assert trees.size() == len(ord_list)
+        assert trees[0].top.value == ord_list[0]
+        assert trees[0].size() == len(ord_list)
     except AttributeError:
         pass
 
 
 def test_contains(trees):
     """Test the contains function."""
-    breath_ord = trees.breath_first()
+    breath_ord = trees[0].breath_first()
     ord_list = []
     for val in breath_ord:
         ord_list.append(val)
     try:
-        assert trees.contains(random.choice(ord_list)) is True
+        assert trees[0].contains(random.choice(ord_list)) is True
     except IndexError:
         pass
 
 
 def test_not_contained(trees):
     """Test contains returns False when item not in list."""
-    assert trees.contains(-89) is False
+    assert trees[0].contains(-89) is False
 
 
 def test_size_empty():
@@ -135,12 +140,12 @@ def test_size_one():
 
 def test_size_many(trees):
     """Test many and similar insert size."""
-    breath_ord = trees.breath_first()
+    breath_ord = trees[0].breath_first()
     ord_list = []
     for val in breath_ord:
         ord_list.append(val)
     try:
-        assert trees.size() == len(ord_list)
+        assert trees[0].size() == len(ord_list)
     except IndexError:
         pass
 
@@ -197,9 +202,19 @@ def test_depth_many():
     assert a.depth() == 2
 
 
-def test_depth_tree(big_left):
-    """Assert that a tree dpeth is three."""
-    assert big_left.depth() == 3
+def test_size_empty_tree():
+    """Assert an empty tree has a size of zero."""
+    from bst import BST
+    b = BST([])
+    assert b.size() == 0
+
+
+def test_size_empty_depth():
+    """Assert an empty tree has a depth of zero."""
+    from bst import BST
+    b = BST([])
+    assert b.depth() == 0
+
 
 # IN-ORDER TESTS
 
@@ -386,3 +401,47 @@ def test_delete_two_kid_size(traversals):
     traversals.delete(14)
     post_delete = traversals.size()
     assert post_delete == (pre_delete - 1)
+
+def test_delete_head_only():
+    """Test deleteing a one node head."""
+    from bst import BST
+    b = BST([20])
+    assert b.contains(20) is True
+    b.delete(20)
+    assert b.contains(20) is False
+
+
+def test_delete_head_one_left_child():
+    """Test deleting a head with one left child."""
+    from bst import BST
+    b = BST([20])
+    b.insert(18)
+    assert b.contains(20) is True
+    b.delete(20)
+    assert b.contains(20) is False
+    assert b.top.value == 18
+
+
+def test_delete_head_one_right_child():
+    """Test deleting a head with one right child."""
+    from bst import BST
+    b = BST([20])
+    b.insert(22)
+    assert b.contains(20) is True
+    b.delete(20)
+    assert b.contains(20) is False
+    assert b.top.value == 22
+
+
+def test_delete_head_two_children():
+    """Test deleting a head with two children."""
+    from bst import BST
+    b = BST([20])
+    b.insert(18)
+    b.insert(22)
+    assert b.contains(20) is True
+    b.delete(20)
+    assert b.contains(20) is False
+    assert b.top.value == 22
+    assert b.top.left.value == 18
+    assert b.top.right is None
