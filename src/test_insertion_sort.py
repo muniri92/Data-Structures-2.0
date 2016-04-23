@@ -1,6 +1,5 @@
 # _*_ coding: utf-8 _*_
 """Test the insertion sort algorithm."""
-import pytest
 import random
 
 RANDOM_LIST = [random.sample(range(1000),
@@ -9,47 +8,31 @@ RANDOM_LIST = [random.sample(range(1000),
 
 def test_random_lst():
     """A."""
-    from insertion_sort import InsertionSort
-    i = InsertionSort()
+    from insertion_sort import insertion
     for lst in RANDOM_LIST:
         lst_sort = sorted(lst)
-        assert i.insertion(lst) == lst_sort
+        assert insertion(lst) == lst_sort
+
+
+def test_random_sames():
+    """A."""
+    from insertion_sort import insertion
+    assert insertion([2, 2, 2, 1]) == [1, 2, 2, 2]
+
+
+def test_stability():
+    """A."""
+    from insertion_sort import insertion
+    lst = [(2, 'ab'), (1, 'ba'), (3, 'ab'), (2, 'ba'), (5, 'ab')]
+    one = lst[0]
+    two = lst[3]
+    sort_lst = insertion(lst)
+    assert sort_lst == [(1, 'ba'), (2, 'ab'), (2, 'ba'), (3, 'ab'), (5, 'ab')]
+    assert sort_lst[1] is one
+    assert sort_lst[2] is two
 
 
 def test_insertion_empty():
     """Test that was can pass an empty list."""
-    from insertion_sort import InsertionSort
-    i = InsertionSort()
-    assert i.insertion([]) == []
-
-
-def test_error_string():
-    """Test to see that error is raised when string is passed."""
-    from insertion_sort import InsertionSort
-    i = InsertionSort()
-    with pytest.raises(TypeError):
-        i.insertion([10, 20, "hey", 20])
-
-
-def test_error_list():
-    """Test to see that error is raised when list is passed."""
-    from insertion_sort import InsertionSort
-    i = InsertionSort()
-    with pytest.raises(TypeError):
-        i.insertion([10, 20, [], 20])
-
-
-def test_error_tuple():
-    """Test to see that error is raised when tuple is passed."""
-    from insertion_sort import InsertionSort
-    i = InsertionSort()
-    with pytest.raises(TypeError):
-        i.insertion([10, 20, ("hey", "fail"), 20])
-
-
-def test_error_dict():
-    """Test to see that error is raised when dict is passed."""
-    from insertion_sort import InsertionSort
-    i = InsertionSort()
-    with pytest.raises(TypeError):
-        i.insertion([10, 20, {"hey": "fail"}, 20])
+    from insertion_sort import insertion
+    assert insertion([]) == []
