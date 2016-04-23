@@ -5,7 +5,6 @@ import time
 
 def insertion(lst):
     """Insertion Sort Function."""
-    # try:
     for idx in range(1, len(lst)):
         val = lst[idx]
         cur_spot = idx
@@ -14,8 +13,6 @@ def insertion(lst):
             cur_spot = cur_spot - 1
         lst[cur_spot] = val
     return lst
-    # except ValueError:
-    #     raise TypeError("The list may only contain integers.")
 
 
 if __name__ == '__main__':
