@@ -37,7 +37,6 @@
 # Insertion Sort
 
 # Merge Sort
+### [Helpful Source](http://interactivepython.org/runestone/static/pythonds/SortSearch/TheMergeSort.html)
 
-
-
- ### [Source](http://interactivepython.org/runestone/static/pythonds/SortSearch/TheMergeSort.html)
+# Quick Sort
