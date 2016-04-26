@@ -12,18 +12,22 @@ class Trie(object):
     def insert(self, token):
         """Insert a token into the Trie."""
         current = token[0]
-        if current in self.root:
+        if current in self.root:  # Currently exists to a point
             count = 0
 
             # self.root[current] =
-        elif len(token) != 1:
-            self.root["*"] = {current: token[1]}
-            self.insert(token)
+        elif len(token) != 1:  # Empty and multipy letters long 
+            # while count != len(token):
+            self.root["*"] = {current: "$"}
+            self.root[current].update({"t": "$"})
+            
 
-            self.root["*"].update({"t": "$"})
+            # self.insert(token)
+
+            # self.root["*"] = {"y": "$"}
+
         else:  # Empty and a case of one
             self.root["*"] = {current: "$"}
-            # self.root["*"] = {"y": "$"}
             print(self.root)
 
 
