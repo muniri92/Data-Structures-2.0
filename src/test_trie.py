@@ -67,6 +67,8 @@ def test_traversals_not_there():
     """Test traversal for a start that is not there."""
     from trie import Trie
     t = Trie()
-    assert t.traversal("cat") == []
-
+    result = []
+    for item in t.traversal(t.root):
+        result.append(item)
+    assert result == [[]]
 

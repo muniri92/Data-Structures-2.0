@@ -32,14 +32,31 @@ class Trie(object):
 
     def traversal(self, start):
         """Traverse a Trie from a designated start place."""
-        if not self.contains(start):
-            return []
-        else:
-            pass
+        print(start)
+        word = ''
+        for key in start:
+            word += (key)
+            if key != '$':
+                word += str(self.traversal(start[key]))
+        yield word
+
+        # print(start)
+        # lst = []
+        # for key in start:
+        #     lst.append(key)
+        #     if key != '$':
+        #         lst += self.traversal(start[key])
+        # yield lst
+
 
 
 if __name__ == '__main__':
     t = Trie()
-    t.insert("att")
-    t.insert("at")
-    print(t.contains("at"))
+    t.insert("cat")
+    t.insert("cats")
+    t.insert("dog")
+    # t.insert("at")
+    # print(t.contains("at"))
+    for i in t.traversal(t.root):
+        print(i)
+    print(t.traversal(t.root))
