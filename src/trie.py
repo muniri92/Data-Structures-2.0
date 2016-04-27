@@ -7,30 +7,32 @@ class Trie(object):
 
     def __init__(self):
         """Initialize the trie."""
-        self.root = {"*": ["$"]}
+        self.root = {}
 
     def insert(self, token):
         """Insert a token into the Trie."""
-        current = token[0]
-        if current in self.root:  # Currently exists to a point
-            count = 0
-
-            # self.root[current] =
-        elif len(token) != 1:  # Empty and multipy letters long 
-            # while count != len(token):
-            self.root["*"] = {current: "$"}
-            self.root[current].update({"t": "$"})
-            
-
-            # self.insert(token)
-
-            # self.root["*"] = {"y": "$"}
-
-        else:  # Empty and a case of one
-            self.root["*"] = {current: "$"}
+        if not token:
+            return None
+        else:
+            current = self.root
+            for char in token.lower():
+                current = current.setdefault(char, {})
+            current["$"] = "$"
             print(self.root)
+
+    def contains(self, token):
+        """"Check to see if a token is contain in the Trie."""
+        current = self.root
+        for char in token:
+            if char in current:
+                current = current[char]
+            else:
+                return False
+        return "$" in current
 
 
 if __name__ == '__main__':
     t = Trie()
+    t.insert("att")
     t.insert("at")
+    print(t.contains("at"))
