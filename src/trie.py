@@ -30,6 +30,13 @@ class Trie(object):
                 return False
         return "$" in current
 
+    def traversal(self, start):
+        """Traverse a Trie from a designated start place."""
+        if not self.contains(start):
+            return []
+        else:
+            pass
+
 
 if __name__ == '__main__':
     t = Trie()

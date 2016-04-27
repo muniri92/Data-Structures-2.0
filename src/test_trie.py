@@ -61,3 +61,12 @@ def test_contatins_false():
     t.insert("cat")
     result = t.contains("dog")
     assert result is False
+
+
+def test_traversals_not_there():
+    """Test traversal for a start that is not there."""
+    from trie import Trie
+    t = Trie()
+    assert t.traversal("cat") == []
+
+
