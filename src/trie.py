@@ -9,7 +9,7 @@ class Trie(object):
         """Initialize the trie."""
         self.root = {}
 
-    def insert(self, token):
+    def insert(self, token):  # clean out dollar signs?
         """Insert a token into the Trie."""
         if not token:
             return None
@@ -33,8 +33,8 @@ class Trie(object):
         """Traverse a Trie from a designated start place."""
         if start is None:
             start = self.root
-        elif self.contains(start):
-            pass  # this would be where autocomplete would go
+        # elif self.contains(start):
+        #     pass  # this would be where autocomplete would go
         for key in start:
             if key == '$':
                 yield word
@@ -48,8 +48,8 @@ if __name__ == '__main__':
     t.insert("cat")
     t.insert("cats")
     t.insert("dog")
-    # t.insert("at")
-    # print(t.contains("at"))
+    t.insert("at")
+    print(t.contains("at"))
     for i in t.traversal():
         print(i)
     print(t.traversal(t.root))
