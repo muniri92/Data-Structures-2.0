@@ -41,14 +41,6 @@ class Trie(object):
             else:
                 for more_letters in self.traversal(start[key], word + key):
                     yield more_letters
-        # print(start)
-        # lst = []
-        # for key in start:
-        #     lst.append(key)
-        #     if key != '$':
-        #         lst += self.traversal(start[key])
-        # yield lst
-
 
 
 if __name__ == '__main__':

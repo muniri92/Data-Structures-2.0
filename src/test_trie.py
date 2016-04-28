@@ -63,12 +63,24 @@ def test_contatins_false():
     assert result is False
 
 
-def test_traversals_not_there():
-    """Test traversal for a start that is not there."""
+def test_traversals_on_empty():
+    """Test traversal for aan empty."""
     from trie import Trie
     t = Trie()
     result = []
     for item in t.traversal(t.root):
         result.append(item)
-    assert result == [[]]
+    assert result == []
 
+
+def test_traversal():
+    """Test traversal works on multiple items."""
+    from trie import Trie
+    t = Trie()
+    t.insert("cat")
+    t.insert("cats")
+    t.insert("dog")
+    result = set()
+    for i in t.traversal():
+        result.add(i)
+    assert result == set(["cat", "cats", "dog"])
