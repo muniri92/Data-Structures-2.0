@@ -18,7 +18,6 @@ class Trie(object):
             for char in token.lower():
                 current = current.setdefault(char, {})
             current["$"] = "$"
-            print(self.root)
 
     def contains(self, token):
         """"Check to see if a token is contain in the Trie."""
@@ -30,16 +29,18 @@ class Trie(object):
                 return False
         return "$" in current
 
-    def traversal(self, start):
+    def traversal(self, start=None, word=''):
         """Traverse a Trie from a designated start place."""
-        print(start)
-        word = ''
+        if start is None:
+            start = self.root
+        elif self.contains(start):
+            pass  # this would be where autocomplete would go
         for key in start:
-            word += (key)
-            if key != '$':
-                word += str(self.traversal(start[key]))
-        yield word
-
+            if key == '$':
+                yield word
+            else:
+                for more_letters in self.traversal(start[key], word + key):
+                    yield more_letters
         # print(start)
         # lst = []
         # for key in start:
@@ -57,6 +58,6 @@ if __name__ == '__main__':
     t.insert("dog")
     # t.insert("at")
     # print(t.contains("at"))
-    for i in t.traversal(t.root):
+    for i in t.traversal():
         print(i)
     print(t.traversal(t.root))
