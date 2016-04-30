@@ -54,7 +54,7 @@ class Trie(object):
         lst = []
         for word in words:
             lst.append(word)
-        return lst[:4]
+        return sorted(lst)
 
 if __name__ == '__main__':
     t = Trie()
@@ -65,13 +65,13 @@ if __name__ == '__main__':
     t.insert("cats")
     t.insert("dog")
     t.insert("at")
-    print(t.contains("at"))
+    # print(t.contains("at"))
     print(t.autocomplete("c"))
     print(t.autocomplete("ca"))
     print(t.autocomplete("cat"))
-    print(t.autocomplete("dogs"))
-    print(t.autocomplete("d"))
+    # print(t.autocomplete("dogs"))
+    # print(t.autocomplete("d"))
 
-    for i in t.traversal():
-        print(i)
-    print(t.traversal(t.root))
+    # for i in t.traversal():
+    #     print(i)
+    # print(t.traversal(t.root))
