@@ -70,10 +70,10 @@ def test_traversal():
     t.insert("cat")
     t.insert("cats")
     t.insert("dog")
-    result = set()
+    result = []
     for i in t.traversal():
-        result.add(i)
-    assert result == set(["cat", "cats", "dog"])
+        result.append(i)
+    assert sorted(result) == ["cat", "cats", "dog"]
 
 
 def test_auto_complete_empty():
