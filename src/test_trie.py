@@ -91,6 +91,18 @@ def test_auto_complete_solo():
     assert t.autocomplete("a") == ["apple"]
 
 
+def test_auto_complete_nonexist():
+    """Test autocomplete for a word that does not exist in trie."""
+    from trie import Trie
+    t = Trie()
+    t.insert("catty")
+    t.insert("church")
+    t.insert("crutch")
+    t.insert("cats")
+    t.insert("dog")
+    assert t.autocomplete("p") == []
+
+
 def test_auto_complete_bolo():
     """Test that auto complete will return the one word we are looking for."""
     from trie import Trie
@@ -102,9 +114,6 @@ def test_auto_complete_bolo():
     t.insert("dog")
     t.insert("cat")
     t.insert("at")
-    for word in t.autocomplete("c"):
-        assert word in ['crutch', 'church', 'cats', 'catty', 'cat']
-    for word in t.autocomplete("ca"):
-        assert word in ['cats', 'catty', 'cat']
-    assert t.autocomplete("p") == []
+    assert t.autocomplete("c") == ['cat', 'cats', 'catty', 'church']
+    assert t.autocomplete("ca") == ['cat', 'cats', 'catty']
     assert t.autocomplete("d") == ["dog"]
