@@ -40,3 +40,12 @@
 ### [Helpful Source](http://interactivepython.org/runestone/static/pythonds/SortSearch/TheMergeSort.html)
 
 # Quick Sort
+
+# Radix Sort
+
+#Trie
+ - This structure is used specifically for lexicon completion situations such as autocomplete.  
+
+ ### Methods Available:
+- insert:  Insert a token into the Trie
+- Contains:  See if a token has been entered into the Trie
